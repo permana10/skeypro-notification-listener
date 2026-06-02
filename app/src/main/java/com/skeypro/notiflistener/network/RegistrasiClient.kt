@@ -1,7 +1,10 @@
 package com.skeypro.notiflistener.network
 
 import com.skeypro.notiflistener.config.Config
-import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
 object RegisterClient {
@@ -21,23 +24,25 @@ object RegisterClient {
             )
 
             val body =
-                RequestBody.create(
-                    MediaType.parse("application/json"),
-                    json.toString()
-                )
+                json.toString()
+                    .toRequestBody(
+                        "application/json"
+                            .toMediaType()
+                    )
 
             val request =
                 Request.Builder()
-                .url(Config.REGISTER_URL)
-                .post(body)
-                .build()
+                    .url(Config.REGISTER_URL)
+                    .post(body)
+                    .build()
 
             client.newCall(request)
                 .execute()
-                .body()
+                .body
                 ?.string()
 
         } catch (e: Exception) {
+            e.printStackTrace()
             null
         }
     }
