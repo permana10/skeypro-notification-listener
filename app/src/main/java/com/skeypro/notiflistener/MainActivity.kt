@@ -13,13 +13,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (!PermissionHelper.isNotificationAccessEnabled(this)) {
-
             startActivity(
-                Intent(
-                    Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
-                )
+                Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
             )
-
         }
 
         val tv = TextView(this)
