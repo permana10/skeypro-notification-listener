@@ -9,8 +9,28 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.skeypro.notiflistener.utils.PermissionHelper
 import com.skeypro.notiflistener.utils.PrefHelper
+import android.net.Uri
+import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
 
 class MainActivity : AppCompatActivity() {
+private var selectedUri: Uri? = null
+
+private val pickImage =
+    registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri ->
+
+        if (uri != null) {
+
+            selectedUri = uri
+
+            findViewById<ImageView>(
+                R.id.imgQris
+            ).setImageURI(uri)
+
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         setContentView(R.layout.activity_main)
+        
 
         val txtDeviceId =
             findViewById<TextView>(R.id.txtDeviceId)
@@ -37,8 +58,17 @@ class MainActivity : AppCompatActivity() {
         val txtConnection =
             findViewById<TextView>(R.id.txtConnection)
 
-        val btnUploadQris =
-            findViewById<Button>(R.id.btnUploadQris)
+       val imgQris =
+    findViewById<ImageView>(
+        R.id.imgQris
+    )
+
+imgQris.setOnClickListener {
+
+    pickImage.launch("image/*")
+
+}
+
 
         val registered =
             PrefHelper.isRegistered(this)
@@ -66,8 +96,8 @@ class MainActivity : AppCompatActivity() {
             txtConnection.text =
                 "● Connected"
 
-            btnUploadQris.visibility =
-                View.GONE
+            imgQris.visibility =
+    View.GONE
 
         } else {
 
@@ -83,8 +113,7 @@ class MainActivity : AppCompatActivity() {
             txtConnection.text =
                 "● Disconnected"
 
-            btnUploadQris.visibility =
-                View.VISIBLE
+            imgQris.visibility = View.VISIBLE
         }
     }
 }

@@ -10,6 +10,23 @@ import kotlin.concurrent.thread
 
 class NotificationService : NotificationListenerService() {
 
+    private val allowedPackages = setOf(
+
+        "id.dana",
+        "com.gojek.app",
+        "ovo.id",
+        "com.shopee.id"
+
+    )
+
+    private val keywords = listOf(
+    "rp",
+    "diterima",
+    "masuk",
+    "berhasil",
+    "pembayaran"
+)
+
     override fun onListenerConnected() {
         super.onListenerConnected()
 
@@ -37,6 +54,52 @@ class NotificationService : NotificationListenerService() {
                 ?: ""
 
             val packageName = sbn.packageName
+
+            if (!allowedPackages.contains(packageName)) {
+
+    Log.d(
+        "SKEYPRO",
+        "Ignored Package: $packageName"
+    )
+
+    return
+}
+       
+            val content =
+    (title + " " + text)
+        .lowercase()
+
+val blockedWords = listOf(
+    "promo",
+    "voucher",
+    "cashback",
+    "iklan",
+    "tagihan"
+)
+
+if (blockedWords.any {
+        content.contains(it)
+    }) {
+
+    Log.d(
+        "SKEYPRO",
+        "Blocked Content: $title | $text"
+    )
+
+    return
+}
+
+if (!keywords.any {
+        content.contains(it)
+    }) {
+
+    Log.d(
+        "SKEYPRO",
+        "Ignored Content: $title | $text"
+    )
+
+    return
+}
 
             val payload = JSONObject().apply {
 
