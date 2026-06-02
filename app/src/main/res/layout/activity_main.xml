@@ -1,4 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SKEYBOX"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/txtDeviceId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ID : Belum Terdaftar"
+        android:textSize="16sp"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/txtConnection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="● Disconnected"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnUploadQris"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:text="PILIH FOTO QRIS"
+        android:layout_marginTop="40dp"/>
+
+    <TextView
+        android:id="@+id/txtMerchant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Merchant : -"
+        android:textSize="16sp"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/txtStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status : Belum Aktif"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/txtFooter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Powered by SKEYPRO.ID"
+        android:textSize="12sp"
+        android:layout_marginBottom="20dp"/>
+
+</LinearLayout>
