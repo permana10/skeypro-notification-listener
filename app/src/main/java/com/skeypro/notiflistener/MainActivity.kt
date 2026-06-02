@@ -110,6 +110,16 @@ private val pickImage =
                         status
 
                     )
+val qrisFile =
+    java.io.File(
+        filesDir,
+        "qris.jpg"
+    )
+
+tempFile.copyTo(
+    qrisFile,
+    overwrite = true
+)
 
                     qrisLocked = true
 
@@ -203,13 +213,39 @@ imgQris.setOnClickListener {
 
     if (tapCount >= 10) {
 
-        tapCount = 0
+    tapCount = 0
 
-        txtStatus.text =
-            "Mode Update QRIS Aktif"
+    androidx.appcompat.app.AlertDialog
+        .Builder(this)
 
-        pickImage.launch("image/*")
-    }
+        .setTitle(
+            "Update QRIS"
+        )
+
+        .setMessage(
+            "Yakin ingin mengganti foto QRIS?"
+        )
+
+        .setNegativeButton(
+            "Tidak",
+            null
+        )
+
+        .setPositiveButton(
+            "Ya"
+        ) { _, _ ->
+
+            txtStatus.text =
+                "Mode Update QRIS Aktif"
+
+            pickImage.launch(
+                "image/*"
+            )
+
+        }
+
+        .show()
+ }
 }
 
         val registered =
@@ -239,6 +275,20 @@ qrisLocked = registered
 
             txtConnection.text =
                 "● Connected"
+val qrisFile =
+    java.io.File(
+        filesDir,
+        "qris.jpg"
+    )
+
+if (qrisFile.exists()) {
+
+    imgQris.setImageURI(
+        Uri.fromFile(
+            qrisFile
+        )
+    )
+}
 
             imgQris.visibility =
     View.VISIBLE
