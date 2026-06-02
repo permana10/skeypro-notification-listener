@@ -1,38 +1,44 @@
 package com.skeypro.notiflistener.network
 
 import com.skeypro.notiflistener.config.Config
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 
 object RegisterClient {
 
-    private val client = OkHttpClient()
+    private val client =
+        OkHttpClient()
 
-    fun register(
-        androidId: String
+    fun uploadQris(
+        file: File
     ): String? {
 
         return try {
 
-            val json = JSONObject()
-            json.put(
-                "device_uid",
-                androidId
-            )
+            val requestFile =
+                file.asRequestBody(
+                    "image/*".toMediaTypeOrNull()
+                )
 
             val body =
-                json.toString()
-                    .toRequestBody(
-                        "application/json"
-                            .toMediaType()
+                MultipartBody.Builder()
+                    .setType(
+                        MultipartBody.FORM
                     )
+                    .addFormDataPart(
+                        "file",
+                        file.name,
+                        requestFile
+                    )
+                    .build()
 
             val request =
                 Request.Builder()
-                    .url(Config.REGISTER_URL)
+                    .url(
+                        Config.REGISTER_URL
+                    )
                     .post(body)
                     .build()
 
@@ -42,7 +48,9 @@ object RegisterClient {
                 ?.string()
 
         } catch (e: Exception) {
+
             e.printStackTrace()
+
             null
         }
     }

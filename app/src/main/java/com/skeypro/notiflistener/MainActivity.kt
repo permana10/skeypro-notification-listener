@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import java.io.File
 import android.widget.TextView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,9 @@ import com.skeypro.notiflistener.utils.PrefHelper
 import android.net.Uri
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import kotlin.concurrent.thread
+import org.json.JSONObject
+import com.skeypro.notiflistener.network.RegisterClient
 
 class MainActivity : AppCompatActivity() {
 private var selectedUri: Uri? = null
@@ -35,11 +39,117 @@ private val pickImage =
         R.id.progressRegister
     ).visibility = View.VISIBLE
 
-    // TODO:
-    // Upload ke /api/register
+    thread {
 
-}
+    try {
+
+        val input =
+            contentResolver.openInputStream(uri)
+
+        val tempFile =
+            java.io.File(
+                cacheDir,
+                "qris.jpg"
+            )
+
+        input?.use { inp ->
+
+            tempFile.outputStream()
+                .use { out ->
+
+                    inp.copyTo(out)
+
+                }
+        }
+
+        val response =
+            RegisterClient
+                .uploadQris(tempFile)
+
+        runOnUiThread {
+
+            findViewById<ProgressBar>(
+                R.id.progressRegister
+            ).visibility = View.GONE
+
+            if (response != null) {
+
+                val json =
+                    JSONObject(response)
+
+                if (
+                    json.optBoolean(
+                        "success",
+                        false
+                    )
+                ) {
+
+                    val deviceId =
+                        json.optString(
+                            "device_id"
+                        )
+
+                    val merchant =
+                        json.optString(
+                            "merchant"
+                        )
+
+                    val status =
+                        json.optString(
+                            "status"
+                        )
+
+                    PrefHelper.saveRegistration(
+
+                        this,
+
+                        deviceId,
+
+                        merchant,
+
+                        status
+
+                    )
+
+                    qrisLocked = true
+
+                    findViewById<TextView>(
+                        R.id.txtDeviceId
+                    ).text =
+                        "ID : $deviceId"
+
+                    findViewById<TextView>(
+                        R.id.txtMerchant
+                    ).text =
+                        "Merchant : $merchant"
+
+                    findViewById<TextView>(
+                        R.id.txtStatus
+                    ).text =
+                        "Status : $status"
+
+                    findViewById<TextView>(
+                        R.id.txtConnection
+                    ).text =
+                        "● Connected"
+                }
+            }
+        }
+
+    } catch (e: Exception) {
+
+        e.printStackTrace()
+
+        runOnUiThread {
+
+            findViewById<ProgressBar>(
+                R.id.progressRegister
+            ).visibility = View.GONE
+        }
     }
+}
+  }
+}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
