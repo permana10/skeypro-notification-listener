@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.skeypro.notiflistener.utils.PermissionHelper
 import com.skeypro.notiflistener.utils.PrefHelper
@@ -16,20 +16,29 @@ import androidx.activity.result.contract.ActivityResultContracts
 class MainActivity : AppCompatActivity() {
 private var selectedUri: Uri? = null
 
+private var qrisLocked = false
+private var tapCount = 0
 private val pickImage =
     registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri ->
 
-        if (uri != null) {
+    if (uri != null) {
 
-            selectedUri = uri
+    selectedUri = uri
 
-            findViewById<ImageView>(
-                R.id.imgQris
-            ).setImageURI(uri)
+    findViewById<ImageView>(
+        R.id.imgQris
+    ).setImageURI(uri)
 
-        }
+    findViewById<ProgressBar>(
+        R.id.progressRegister
+    ).visibility = View.VISIBLE
+
+    // TODO:
+    // Upload ke /api/register
+
+}
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,16 +71,41 @@ private val pickImage =
     findViewById<ImageView>(
         R.id.imgQris
     )
+   
+    val progressRegister =
+    findViewById<ProgressBar>(
+        R.id.progressRegister
+    )
 
 imgQris.setOnClickListener {
 
+    if (!qrisLocked) {
+
     pickImage.launch("image/*")
+    return@setOnClickListener
 
 }
 
+    tapCount++
+
+    txtStatus.text =
+        "Ketuk QRIS : $tapCount/10"
+
+    if (tapCount >= 10) {
+
+        tapCount = 0
+
+        txtStatus.text =
+            "Mode Update QRIS Aktif"
+
+        pickImage.launch("image/*")
+    }
+}
 
         val registered =
-            PrefHelper.isRegistered(this)
+    PrefHelper.isRegistered(this)
+
+qrisLocked = registered
 
         if (registered) {
 
@@ -97,7 +131,7 @@ imgQris.setOnClickListener {
                 "● Connected"
 
             imgQris.visibility =
-    View.GONE
+    View.VISIBLE
 
         } else {
 
