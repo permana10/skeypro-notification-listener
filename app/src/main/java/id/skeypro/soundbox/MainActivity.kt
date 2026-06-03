@@ -16,12 +16,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import kotlin.concurrent.thread
 import org.json.JSONObject
 import id.skeypro.soundbox.network.RegisterClient
+import android.widget.ImageButton
+import android.widget.PopupMenu
 
 class MainActivity : AppCompatActivity() {
 private var selectedUri: Uri? = null
 
 private var qrisLocked = false
-private var tapCount = 0
 private val pickImage =
     registerForActivityResult(
         ActivityResultContracts.GetContent()
@@ -179,7 +180,12 @@ tempFile.copyTo(
                     findViewById<TextView>(
                         R.id.txtMerchant
                     ).text =
-                       "Merchant : $merchant ($provider)"
+                        "Merchant : $merchant"
+
+                    findViewById<TextView>(
+                        R.id.txtProvider
+                    ).text =
+                        "Provider : $provider"
 
                     findViewById<TextView>(
                         R.id.txtStatus
@@ -229,6 +235,9 @@ tempFile.copyTo(
         val txtMerchant =
             findViewById<TextView>(R.id.txtMerchant)
 
+        val txtProvider = 
+            findViewById<TextView>(R.id.txtProvider)
+
         val txtStatus =
             findViewById<TextView>(R.id.txtStatus)
 
@@ -240,46 +249,63 @@ tempFile.copyTo(
         R.id.imgQris
     )
 
-imgQris.setOnClickListener {
-
+        imgQris.setOnClickListener {
     if (!qrisLocked) {
+        pickImage.launch(
+            "image/*"
+            )
+       }
+    }
 
-    pickImage.launch("image/*")
-    return@setOnClickListener
+        val btnMenu =
+    findViewById<ImageButton>(
+        R.id.btnMenu
+    )      
 
-}
+       btnMenu.setOnClickListener {
 
-    tapCount++
+    val popup =
+        PopupMenu(
+            this,
+            btnMenu
+        )
 
-    txtStatus.text =
-        "Ketuk QRIS : $tapCount/10"
+    popup.menu.add(
+        "Notifikasi"
+    )
 
-    if (tapCount >= 10) {
+    popup.menu.add(
+        "Ganti QRIS"
+    )
 
-    tapCount = 0
+    popup.menu.add(
+        "Informasi"
+    )
+
+    popup.menu.add(
+        "Update"
+    )
+
+    popup.setOnMenuItemClickListener {
+
+        when(it.title.toString()){
+
+            "Ganti QRIS" -> {
 
     androidx.appcompat.app.AlertDialog
         .Builder(this)
 
         .setTitle(
-            "Update QRIS"
+            "Ganti QRIS"
         )
 
         .setMessage(
-            "Yakin ingin mengganti foto QRIS?"
-        )
-
-        .setNegativeButton(
-            "Tidak",
-            null
+            "Yakin ingin mengganti QRIS?"
         )
 
         .setPositiveButton(
             "Ya"
         ) { _, _ ->
-
-            txtStatus.text =
-                "Mode Update QRIS Aktif"
 
             pickImage.launch(
                 "image/*"
@@ -287,8 +313,21 @@ imgQris.setOnClickListener {
 
         }
 
+        .setNegativeButton(
+            "Tidak",
+            null
+        )
+
         .show()
- }
+
+    true
+}
+
+            else -> true
+        }
+    }
+
+    popup.show()
 }
 
         val registered =
@@ -314,7 +353,10 @@ imgQris.setOnClickListener {
                 "ID : $deviceId"         
 
             txtMerchant.text =
-                "Merchant : $merchant ($provider)"
+                "Merchant : $merchant"
+
+            txtProvider.text =
+                "Provider : $provider"
 
             txtStatus.text =
                 "Status : $status"

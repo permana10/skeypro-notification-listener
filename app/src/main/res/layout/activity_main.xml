@@ -5,17 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:padding="24dp">
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SKEYBOX"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SKEYBOX"
+            android:textStyle="bold"
+            android:textSize="32sp"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageButton
+    android:id="@+id/btnMenu"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:layout_alignParentEnd="true"
+    android:layout_centerVertical="true"
+    android:background="@android:color/transparent"
+    android:src="@android:drawable/ic_menu_sort_by_size"/>
+            
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/txtDeviceId"
@@ -23,31 +37,36 @@
         android:layout_height="wrap_content"
         android:text="ID : Belum Terdaftar"
         android:textSize="16sp"
-        android:layout_marginTop="20dp"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"/>
 
     <TextView
         android:id="@+id/txtConnection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="● Disconnected"
+        android:text="● Connected"
+        android:textColor="#22C55E"
+        android:textStyle="bold"
         android:textSize="16sp"
-        android:layout_marginTop="8dp"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="6dp"/>
 
     <ImageView
     android:id="@+id/imgQris"
     android:layout_width="match_parent"
-    android:layout_height="500dp"
+    android:layout_height="0dp"
+    android:layout_weight="1"
     android:layout_marginTop="20dp"
     android:adjustViewBounds="true"
     android:scaleType="fitCenter"
     android:src="@android:drawable/ic_menu_gallery"/>
 
     <ProgressBar
-    android:id="@+id/progressRegister"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:visibility="gone"
-    android:layout_marginTop="20dp"/>
+        android:id="@+id/progressRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"/>
 
     <TextView
         android:id="@+id/txtMerchant"
@@ -55,20 +74,24 @@
         android:layout_height="wrap_content"
         android:text="Merchant : -"
         android:textSize="16sp"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="12dp"/>
+
+    <TextView
+        android:id="@+id/txtProvider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Provider : -"
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/txtStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Status : Belum Aktif"
+        android:text="Status : Aktif"
+        android:textColor="#22C55E"
+        android:textStyle="bold"
         android:textSize="16sp"
-        android:layout_marginTop="5dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_marginTop="4dp"/>
 
     <TextView
         android:id="@+id/txtFooter"
@@ -76,6 +99,8 @@
         android:layout_height="wrap_content"
         android:text="Powered by SKEYPRO.ID"
         android:textSize="12sp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"/>
 
 </LinearLayout>
