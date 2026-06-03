@@ -16,8 +16,6 @@ class NotificationService : NotificationListenerService() {
         "id.dana",
         "ovo.id",
         "com.gojek.gopaymerchant",
-        "id.co.bri.brimo",
-        "id.co.bankbkemobile.digitalbank",
         "com.shopeepay.id",
         "id.co.bni.merchant",
         "id.ocbc.merchant",
@@ -27,7 +25,6 @@ class NotificationService : NotificationListenerService() {
     )
 
     private val keywords = listOf(
-    "rp",
     "diterima",
     "masuk",
     "berhasil",
