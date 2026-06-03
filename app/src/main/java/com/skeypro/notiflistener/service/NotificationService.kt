@@ -7,6 +7,7 @@ import com.skeypro.notiflistener.config.Config
 import com.skeypro.notiflistener.network.WebhookClient
 import org.json.JSONObject
 import kotlin.concurrent.thread
+import com.skeypro.notiflistener.utils.PrefHelper
 
 class NotificationService : NotificationListenerService() {
 
@@ -103,12 +104,19 @@ if (!keywords.any {
 
             val payload = JSONObject().apply {
 
-                put("package", packageName)
-                put("title", title)
-                put("text", text)
-                put("timestamp", System.currentTimeMillis())
+    put(
+        "device_id",
+        PrefHelper.getDeviceId(
+            this@NotificationService
+        )
+    )
 
-            }.toString()
+    put("package", packageName)
+    put("title", title)
+    put("text", text)
+    put("timestamp", System.currentTimeMillis())
+
+}.toString()
 
             Log.d(
                 "SKEYPRO",
