@@ -4,6 +4,20 @@ plugins {
 }
 
 android {
+    signingConfigs {
+
+    create("release") {
+
+        storeFile = file("skeybox.jks")
+
+        storePassword = "skeypro123"
+
+        keyAlias = "skeybox"
+
+        keyPassword = "skeypro123"
+    }
+}
+
     namespace = "id.skeypro.soundbox"
     compileSdk = 35
 
@@ -17,10 +31,17 @@ android {
     }
 
     buildTypes {
-        release {
-            isMinifyEnabled = false
-        }
+
+    release {
+
+        isMinifyEnabled = false
+
+        signingConfig =
+            signingConfigs.getByName(
+                "release"
+            )
     }
+}
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
