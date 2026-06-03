@@ -14,9 +14,15 @@ class NotificationService : NotificationListenerService() {
     private val allowedPackages = setOf(
 
         "id.dana",
-        "com.gojek.app",
         "ovo.id",
-        "com.shopee.id"
+        "com.gojek.gopaymerchant",
+        "id.co.bri.brimo",
+        "id.co.bankbkemobile.digitalbank",
+        "com.shopeepay.id",
+        "id.co.bni.merchant",
+        "id.ocbc.merchant",
+        "com.gojek.resto",
+        "com.bca.msb"
 
     )
 
@@ -25,7 +31,8 @@ class NotificationService : NotificationListenerService() {
     "diterima",
     "masuk",
     "berhasil",
-    "pembayaran"
+    "pembayaran",
+    "qris"
 )
 
     override fun onListenerConnected() {
