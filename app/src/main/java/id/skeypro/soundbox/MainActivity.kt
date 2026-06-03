@@ -62,9 +62,17 @@ private val pickImage =
                 }
         }
 
+        val deviceUid =
+    PrefHelper.ensureDeviceUid(
+        this@MainActivity
+        )
+
         val response =
-            RegisterClient
-                .uploadQris(tempFile)
+    RegisterClient
+        .uploadQris(
+            tempFile,
+            deviceUid
+        )
 
         runOnUiThread {
 
@@ -84,6 +92,14 @@ private val pickImage =
                     )
                 ) {
 
+                    val deviceUid =
+    json.optString(
+        "device_uid",
+        PrefHelper.getDeviceUid(
+            this
+        )
+    )
+
                     val deviceId =
                         json.optString(
                             "device_id"
@@ -94,19 +110,51 @@ private val pickImage =
                             "merchant"
                         )
 
-                    val status =
-                        json.optString(
-                            "status"
-                        )
+                    val provider =
+    json.optString(
+        "provider"
+    )
+
+val packages =
+    mutableSetOf<String>()
+
+val jsonPackages =
+    json.optJSONArray(
+        "allowed_packages"
+    )
+
+if(
+    jsonPackages != null
+){
+
+    for(
+        i in 0 until
+        jsonPackages.length()
+    ){
+
+        packages.add(
+            jsonPackages.getString(i)
+        )
+    }
+}
+
+PrefHelper.saveAllowedPackages(
+    this,
+    packages
+)
+
+val status =
+    json.optString(
+        "status"
+    )
 
                     PrefHelper.saveRegistration(
 
                         this,
-
+                        deviceUid,
                         deviceId,
-
                         merchant,
-
+                        provider,
                         status
 
                     )
@@ -131,7 +179,7 @@ tempFile.copyTo(
                     findViewById<TextView>(
                         R.id.txtMerchant
                     ).text =
-                        "Merchant : $merchant"
+                       "Merchant : $merchant ($provider)"
 
                     findViewById<TextView>(
                         R.id.txtStatus
@@ -173,7 +221,7 @@ tempFile.copyTo(
         }
 
         setContentView(R.layout.activity_main)
-        
+        PrefHelper.ensureDeviceUid(this)
 
         val txtDeviceId =
             findViewById<TextView>(R.id.txtDeviceId)
@@ -190,11 +238,6 @@ tempFile.copyTo(
        val imgQris =
     findViewById<ImageView>(
         R.id.imgQris
-    )
-   
-    val progressRegister =
-    findViewById<ProgressBar>(
-        R.id.progressRegister
     )
 
 imgQris.setOnClickListener {
@@ -251,7 +294,7 @@ imgQris.setOnClickListener {
         val registered =
     PrefHelper.isRegistered(this)
 
-qrisLocked = registered
+    qrisLocked = registered
 
         if (registered) {
 
@@ -261,14 +304,17 @@ qrisLocked = registered
             val merchant =
                 PrefHelper.getMerchant(this)
 
+            val provider =
+                PrefHelper.getProvider(this)
+
             val status =
                 PrefHelper.getStatus(this)
 
             txtDeviceId.text =
-                "ID : $deviceId"
+                "ID : $deviceId"         
 
             txtMerchant.text =
-                "Merchant : $merchant"
+                "Merchant : $merchant ($provider)"
 
             txtStatus.text =
                 "Status : $status"
@@ -298,8 +344,7 @@ if (qrisFile.exists()) {
             txtDeviceId.text =
                 "ID : Belum Terdaftar"
 
-            txtMerchant.text =
-                "Merchant : -"
+            txtMerchant.text = "Merchant : -"
 
             txtStatus.text =
                 "Status : Belum Aktif"

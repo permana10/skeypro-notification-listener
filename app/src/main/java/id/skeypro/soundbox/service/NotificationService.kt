@@ -5,32 +5,21 @@ import android.service.notification.StatusBarNotification
 import android.util.Log
 import id.skeypro.soundbox.config.Config
 import id.skeypro.soundbox.network.WebhookClient
+import id.skeypro.soundbox.utils.PrefHelper
 import org.json.JSONObject
 import kotlin.concurrent.thread
-import id.skeypro.soundbox.utils.PrefHelper
 
 class NotificationService : NotificationListenerService() {
 
-    private val allowedPackages = setOf(
+    private val keywords = listOf(
 
-        "id.dana",
-        "ovo.id",
-        "com.gojek.gopaymerchant",
-        "com.shopeepay.id",
-        "id.co.bni.merchant",
-        "id.ocbc.merchant",
-        "com.gojek.resto",
-        "com.bca.msb"
+        "diterima",
+        "masuk",
+        "berhasil",
+        "pembayaran",
+        "qris"
 
     )
-
-    private val keywords = listOf(
-    "diterima",
-    "masuk",
-    "berhasil",
-    "pembayaran",
-    "qris"
-)
 
     override fun onListenerConnected() {
         super.onListenerConnected()
@@ -41,86 +30,164 @@ class NotificationService : NotificationListenerService() {
         )
     }
 
-    override fun onNotificationPosted(sbn: StatusBarNotification) {
+    override fun onNotificationPosted(
+        sbn: StatusBarNotification
+    ) {
+
         super.onNotificationPosted(sbn)
 
         try {
 
-            val extras = sbn.notification.extras
+            val extras =
+                sbn.notification.extras
 
             val title = extras
-                ?.getCharSequence("android.title")
+                ?.getCharSequence(
+                    "android.title"
+                )
                 ?.toString()
                 ?: ""
 
             val text = extras
-                ?.getCharSequence("android.text")
+                ?.getCharSequence(
+                    "android.text"
+                )
                 ?.toString()
                 ?: ""
 
-            val packageName = sbn.packageName
+            val packageName =
+                sbn.packageName
 
-            if (!allowedPackages.contains(packageName)) {
+            if (
+                !PrefHelper.isRegistered(
+                    this
+                )
+            ) {
+                return
+            }
 
-    Log.d(
-        "SKEYPRO",
-        "Ignored Package: $packageName"
-    )
+            val deviceId =
+                PrefHelper.getDeviceId(
+                    this
+                )
 
-    return
-}
-       
+            if (
+                deviceId.isBlank()
+            ) {
+                return
+            }
+
+            val allowedPackages =
+                PrefHelper.getAllowedPackages(
+                    this
+                )
+
+            if (
+
+                allowedPackages.isNotEmpty()
+
+                &&
+
+                packageName !in allowedPackages
+
+            ) {
+
+                Log.d(
+
+                    "SKEYPRO",
+
+                    "Ignored Package: $packageName"
+
+                )
+
+                return
+            }
+
             val content =
-    (title + " " + text)
-        .lowercase()
+                (title + " " + text)
+                    .lowercase()
 
-val blockedWords = listOf(
-    "promo",
-    "voucher",
-    "cashback",
-    "iklan",
-    "tagihan"
-)
+            val blockedWords = listOf(
 
-if (blockedWords.any {
-        content.contains(it)
-    }) {
+                "promo",
+                "voucher",
+                "cashback",
+                "iklan",
+                "tagihan"
 
-    Log.d(
-        "SKEYPRO",
-        "Blocked Content: $title | $text"
-    )
+            )
 
-    return
-}
+            if (
 
-if (!keywords.any {
-        content.contains(it)
-    }) {
+                blockedWords.any {
 
-    Log.d(
-        "SKEYPRO",
-        "Ignored Content: $title | $text"
-    )
+                    content.contains(it)
 
-    return
-}
+                }
 
-            val payload = JSONObject().apply {
+            ) {
 
-    put(
-        "device_id",
-        PrefHelper.getDeviceId(
-            this@NotificationService
-        )
-    )
+                Log.d(
 
-    put("package", packageName)
-    put("title", title)
-    put("text", text)
-    put("timestamp", System.currentTimeMillis())
+                    "SKEYPRO",
 
-}.toString()
+                    "Blocked Content: $title | $text"
+
+                )
+
+                return
+            }
+
+            if (
+
+                !keywords.any {
+
+                    content.contains(it)
+
+                }
+
+            ) {
+
+                Log.d(
+
+                    "SKEYPRO",
+
+                    "Ignored Content: $title | $text"
+
+                )
+
+                return
+            }
+
+            val payload =
+                JSONObject().apply {
+
+                    put(
+                        "device_id",
+                        deviceId
+                    )
+
+                    put(
+                        "package",
+                        packageName
+                    )
+
+                    put(
+                        "title",
+                        title
+                    )
+
+                    put(
+                        "text",
+                        text
+                    )
+
+                    put(
+                        "timestamp",
+                        System.currentTimeMillis()
+                    )
+
+                }.toString()
 
             Log.d(
                 "SKEYPRO",
@@ -129,35 +196,48 @@ if (!keywords.any {
 
             thread {
 
-                val success = WebhookClient.send(
-                    Config.WEBHOOK_URL,
-                    payload
-                )
+                val success =
+                    WebhookClient.send(
+
+                        Config.WEBHOOK_URL,
+
+                        payload
+
+                    )
 
                 Log.d(
-                    "SKEYPRO",
-                    "Webhook Result = $success"
-                )
 
+                    "SKEYPRO",
+
+                    "Webhook Result = $success"
+
+                )
             }
 
         } catch (e: Exception) {
 
             Log.e(
-                "SKEYPRO",
-                "Notification Error",
-                e
-            )
 
+                "SKEYPRO",
+
+                "Notification Error",
+
+                e
+
+            )
         }
     }
 
     override fun onListenerDisconnected() {
+
         super.onListenerDisconnected()
 
         Log.d(
+
             "SKEYPRO",
+
             "Notification Listener Disconnected"
+
         )
     }
 }

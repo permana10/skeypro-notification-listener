@@ -13,6 +13,7 @@ object RegisterClient {
 
     fun uploadQris(
         file: File
+        deviceUid: String
     ): String? {
 
         return try {
@@ -27,6 +28,11 @@ object RegisterClient {
                     .setType(
                         MultipartBody.FORM
                     )
+                    addFormDataPart(
+                        "device_uid",
+                         deviceUid
+                    )
+
                     .addFormDataPart(
                         "file",
                         file.name,
