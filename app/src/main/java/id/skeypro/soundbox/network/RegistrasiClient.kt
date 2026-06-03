@@ -12,7 +12,7 @@ object RegisterClient {
         OkHttpClient()
 
     fun uploadQris(
-        file: File
+        file: File,
         deviceUid: String
     ): String? {
 
@@ -28,7 +28,7 @@ object RegisterClient {
                     .setType(
                         MultipartBody.FORM
                     )
-                    addFormDataPart(
+                    .addFormDataPart(
                         "device_uid",
                          deviceUid
                     )
