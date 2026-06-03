@@ -27,7 +27,11 @@ jobs:
         run: |
           ls -lh app/skeybox.jks
           wc -c app/skeybox.jks
-
+          
+      - name: Verify Hash
+        run: |
+          sha256sum app/skeybox.jks
+          
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
