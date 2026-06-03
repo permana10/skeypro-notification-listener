@@ -1,4 +1,4 @@
-package com.skeypro.notiflistener.model
+package id.skeypro.soundbox.model
 
 data class RegisterResponse(
     val success: Boolean,

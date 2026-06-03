@@ -1,4 +1,4 @@
-package com.skeypro.notiflistener
+package id.skeypro.soundbox
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,14 +8,14 @@ import java.io.File
 import android.widget.TextView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import com.skeypro.notiflistener.utils.PermissionHelper
-import com.skeypro.notiflistener.utils.PrefHelper
+import id.skeypro.soundbox.utils.PermissionHelper
+import id.skeypro.soundbox.utils.PrefHelper
 import android.net.Uri
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import kotlin.concurrent.thread
 import org.json.JSONObject
-import com.skeypro.notiflistener.network.RegisterClient
+import id.skeypro.soundbox.network.RegisterClient
 
 class MainActivity : AppCompatActivity() {
 private var selectedUri: Uri? = null

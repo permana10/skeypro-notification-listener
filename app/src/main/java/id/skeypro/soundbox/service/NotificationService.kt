@@ -1,13 +1,13 @@
-package com.skeypro.notiflistener.service
+package id.skeypro.soundbox.service
 
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
-import com.skeypro.notiflistener.config.Config
-import com.skeypro.notiflistener.network.WebhookClient
+import id.skeypro.soundbox.config.Config
+import id.skeypro.soundbox.network.WebhookClient
 import org.json.JSONObject
 import kotlin.concurrent.thread
-import com.skeypro.notiflistener.utils.PrefHelper
+import id.skeypro.soundbox.utils.PrefHelper
 
 class NotificationService : NotificationListenerService() {
 

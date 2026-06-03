@@ -1,4 +1,4 @@
-package com.skeypro.notiflistener.config
+package id.skeypro.soundbox.config
 
 object Config {
 

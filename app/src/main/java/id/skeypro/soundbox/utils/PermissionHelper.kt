@@ -1,4 +1,4 @@
-package com.skeypro.notiflistener.utils
+package id.skeypro.soundbox.utils
 
 import android.content.Context
 import android.provider.Settings

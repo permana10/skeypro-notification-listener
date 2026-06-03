@@ -1,4 +1,4 @@
-package com.skeypro.notiflistener.network
+package id.skeypro.soundbox.network
 
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient

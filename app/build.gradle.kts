@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.skeypro.notiflistener"
+    namespace = "id.skeypro.soundbox"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.skeypro.notiflistener"
+        applicationId = "id.skeypro.soundbox"
         minSdk = 26
         targetSdk = 35
 
