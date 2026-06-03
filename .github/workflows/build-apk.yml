@@ -23,6 +23,13 @@ jobs:
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/skeybox.jks
 
+     - name: Verify Keystore
+        run: |
+          ls -lh app/skeybox.jks
+          keytool -list -v \
+          -keystore app/skeybox.jks \
+          -storepass skeypro123
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
