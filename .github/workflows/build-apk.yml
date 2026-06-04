@@ -18,7 +18,7 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-    
+
       - name: Decode Keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/skeybox.jks
@@ -27,13 +27,15 @@ jobs:
         run: |
           ls -lh app/skeybox.jks
           wc -c app/skeybox.jks
-          
+      - name: Verify Keystore
+        run: |
+          keytool -list -v \
+          -keystore app/skeybox.jks \
+          -alias skeybox \
+          -storepass skeypro123
       - name: Verify Hash
         run: |
           sha256sum app/skeybox.jks
-          
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
