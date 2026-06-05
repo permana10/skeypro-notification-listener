@@ -58,4 +58,5 @@ object RegisterClient {
 
         null
     }
+ }
 }
