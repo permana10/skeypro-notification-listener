@@ -8,7 +8,6 @@ object PrefHelper {
 
     fun saveRegistration(
         context: Context,
-        deviceUid: String,
         deviceId: String,
         merchant: String,
         provider: String,
@@ -22,51 +21,13 @@ object PrefHelper {
             )
             .edit()
             .putBoolean("registered", true)
-            .putString("device_uid", deviceUid)
             .putString("device_id", deviceId)
             .putString("merchant", merchant)            
             .putString("provider", provider)
             .putString("status", status)
             .apply()
     }
-
-    fun ensureDeviceUid(
-        context: Context
-    ): String {
-
-    val prefs =
-        context.getSharedPreferences(
-            PREF_NAME,
-            Context.MODE_PRIVATE
-        )
-
-    var uid =
-        prefs.getString(
-            "device_uid",
-            ""
-        ) ?: ""
-
-    if(uid.isBlank()){
-
-        uid =
-            "UID-" +
-            java.util.UUID
-                .randomUUID()
-                .toString()
-                .replace("-", "")
-                .take(12)
-                .uppercase()
-
-        prefs.edit()
-            .putString(
-                "device_uid",
-                uid
-            )
-            .apply()
-    }
-
-    return uid
-    }
+  
 
     fun isRegistered(
         context: Context
@@ -81,21 +42,6 @@ object PrefHelper {
                 "registered",
                 false
             )
-    }
-
-    fun getDeviceUid(
-        context: Context
-    ): String {
-
-    return context
-        .getSharedPreferences(
-            PREF_NAME,
-            Context.MODE_PRIVATE
-        )
-        .getString(
-            "device_uid",
-            ""
-        ) ?: ""
     }
 
     fun getDeviceId(

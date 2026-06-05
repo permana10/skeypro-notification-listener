@@ -35,17 +35,87 @@ private val pickImage =
     findViewById<ImageView>(
         R.id.imgQris
     ).setImageURI(uri)
+   }
+ }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (!PermissionHelper.isNotificationAccessEnabled(this)) {
+            startActivity(
+                Intent(
+                    Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
+                )
+            )
+        }
+
+        setContentView(R.layout.activity_main)
+        
+        val txtDeviceId =
+            findViewById<TextView>(R.id.txtDeviceId)
+        val txtMerchant =
+            findViewById<TextView>(R.id.txtMerchant)
+        val txtProvider = 
+            findViewById<TextView>(R.id.txtProvider)
+        val txtStatus =
+            findViewById<TextView>(R.id.txtStatus)
+        val txtConnection =
+            findViewById<TextView>(R.id.txtConnection)
+
+       val imgQris =
+    findViewById<ImageView>(
+        R.id.imgQris
+    )
+
+val btnPilihQris =
+    findViewById<android.widget.Button>(
+        R.id.btnPilihQris
+    )
+
+btnPilihQris.setOnClickListener {
+
+    pickImage.launch(
+        "image/*"
+    )
+}
+
+        val btnDaftar =
+    findViewById<android.widget.Button>(
+        R.id.btnDaftar
+    )
+
+btnDaftar.setOnClickListener {
+    val deviceIdInput =
+        findViewById<
+            android.widget.EditText
+        >(
+            R.id.edtDeviceId
+        )
+        .text
+        .toString()
+        .trim()
+
+    if (deviceIdInput.isEmpty()) {
+        return@setOnClickListener
+    }
+
+    if (selectedUri == null) {
+        return@setOnClickListener
+    }
 
     findViewById<ProgressBar>(
-        R.id.progressRegister
-    ).visibility = View.VISIBLE
+    R.id.progressRegister
+).visibility = View.VISIBLE
 
-    thread {
+thread {
 
     try {
 
         val input =
-            contentResolver.openInputStream(uri)
+            contentResolver
+                .openInputStream(
+                    selectedUri!!
+                )
 
         val tempFile =
             java.io.File(
@@ -63,17 +133,12 @@ private val pickImage =
                 }
         }
 
-        val deviceUid =
-    PrefHelper.ensureDeviceUid(
-        this@MainActivity
-        )
-
         val response =
-    RegisterClient
-        .uploadQris(
-            tempFile,
-            deviceUid
-        )
+            RegisterClient
+                .uploadQris(
+                    tempFile,
+                    deviceIdInput
+                )
 
         runOnUiThread {
 
@@ -83,121 +148,87 @@ private val pickImage =
 
             if (response != null) {
 
-                val json =
-                    JSONObject(response)
+    val json =
+        JSONObject(response)
 
-                if (
-                    json.optBoolean(
-                        "success",
-                        false
-                    )
-                ) {
-
-                    val deviceUid =
-    json.optString(
-        "device_uid",
-        PrefHelper.getDeviceUid(
-            this
+    if (
+        json.optBoolean(
+            "success",
+            false
         )
-    )
+    ) {
 
-                    val deviceId =
-                        json.optString(
-                            "device_id"
-                        )
+        val deviceId =
+            json.optString(
+                "device_id"
+            )
 
-                    val merchant =
-                        json.optString(
-                            "merchant"
-                        )
+        val merchant =
+            json.optString(
+                "merchant"
+            )
 
-                    val provider =
-    json.optString(
-        "provider"
-    )
+        val provider =
+            json.optString(
+                "provider"
+            )
 
-val packages =
-    mutableSetOf<String>()
+        val status =
+            json.optString(
+                "status"
+            )
 
-val jsonPackages =
-    json.optJSONArray(
-        "allowed_packages"
-    )
+        PrefHelper.saveRegistration(
+            this@MainActivity,
+            deviceId,
+            merchant,
+            provider,
+            status
 
-if(
-    jsonPackages != null
-){
-
-    for(
-        i in 0 until
-        jsonPackages.length()
-    ){
-
-        packages.add(
-            jsonPackages.getString(i)
         )
+
+        val qrisFile =
+            java.io.File(
+                filesDir,
+                "qris.jpg"
+            )
+
+        tempFile.copyTo(
+            qrisFile,
+            overwrite = true
+        )
+
+        qrisLocked = true
+
+        txtDeviceId.text =
+            "ID : $deviceId"
+
+        txtMerchant.text =
+            "Merchant : $merchant"
+
+        txtProvider.text =
+            "Provider : $provider"
+
+        txtStatus.text =
+            "Status : $status"
+
+        txtConnection.text =
+            "● Connected"
+
+        findViewById<android.widget.EditText>(
+            R.id.edtDeviceId
+        ).visibility = View.GONE
+
+        findViewById<android.widget.Button>(
+            R.id.btnPilihQris
+        ).visibility = View.GONE
+
+        findViewById<android.widget.Button>(
+            R.id.btnDaftar
+        ).visibility = View.GONE
     }
 }
 
-PrefHelper.saveAllowedPackages(
-    this,
-    packages
-)
-
-val status =
-    json.optString(
-        "status"
-    )
-
-                    PrefHelper.saveRegistration(
-
-                        this,
-                        deviceUid,
-                        deviceId,
-                        merchant,
-                        provider,
-                        status
-
-                    )
-val qrisFile =
-    java.io.File(
-        filesDir,
-        "qris.jpg"
-    )
-
-tempFile.copyTo(
-    qrisFile,
-    overwrite = true
-)
-
-                    qrisLocked = true
-
-                    findViewById<TextView>(
-                        R.id.txtDeviceId
-                    ).text =
-                        "ID : $deviceId"
-
-                    findViewById<TextView>(
-                        R.id.txtMerchant
-                    ).text =
-                        "Merchant : $merchant"
-
-                    findViewById<TextView>(
-                        R.id.txtProvider
-                    ).text =
-                        "Provider : $provider"
-
-                    findViewById<TextView>(
-                        R.id.txtStatus
-                    ).text =
-                        "Status : $status"
-
-                    findViewById<TextView>(
-                        R.id.txtConnection
-                    ).text =
-                        "● Connected"
-                }
-            }
         }
 
     } catch (e: Exception) {
@@ -211,53 +242,10 @@ tempFile.copyTo(
             ).visibility = View.GONE
         }
     }
-}
   }
-}
+}       
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        if (!PermissionHelper.isNotificationAccessEnabled(this)) {
-            startActivity(
-                Intent(
-                    Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
-                )
-            )
-        }
-
-        setContentView(R.layout.activity_main)
-        PrefHelper.ensureDeviceUid(this)
-
-        val txtDeviceId =
-            findViewById<TextView>(R.id.txtDeviceId)
-
-        val txtMerchant =
-            findViewById<TextView>(R.id.txtMerchant)
-
-        val txtProvider = 
-            findViewById<TextView>(R.id.txtProvider)
-
-        val txtStatus =
-            findViewById<TextView>(R.id.txtStatus)
-
-        val txtConnection =
-            findViewById<TextView>(R.id.txtConnection)
-
-       val imgQris =
-    findViewById<ImageView>(
-        R.id.imgQris
-    )
-
-        imgQris.setOnClickListener {
-    if (!qrisLocked) {
-        pickImage.launch(
-            "image/*"
-            )
-       }
-    }
-
-        val btnMenu =
+     val btnMenu =
     findViewById<ImageButton>(
         R.id.btnMenu
     )      
@@ -363,6 +351,17 @@ tempFile.copyTo(
 
             txtConnection.text =
                 "● Connected"
+    
+             findViewById<android.widget.EditText>(
+    R.id.edtDeviceId
+             ).visibility = View.GONE
+             findViewById<android.widget.Button>(
+    R.id.btnPilihQris
+             ).visibility = View.GONE
+             findViewById<android.widget.Button>(
+    R.id.btnDaftar
+             ).visibility = View.GONE
+
 val qrisFile =
     java.io.File(
         filesDir,
@@ -394,7 +393,17 @@ if (qrisFile.exists()) {
             txtConnection.text =
                 "● Disconnected"
 
+            findViewById<android.widget.EditText>(
+    R.id.edtDeviceId
+            ).visibility = View.VISIBLE
+            findViewById<android.widget.Button>(
+    R.id.btnPilihQris
+            ).visibility = View.VISIBLE
+            findViewById<android.widget.Button>(
+    R.id.btnDaftar
+            ).visibility = View.VISIBLE
             imgQris.visibility = View.VISIBLE
         }
     }
 }
+

@@ -51,6 +51,36 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="6dp"/>
 
+    <EditText
+    android:id="@+id/edtDeviceId"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Contoh: SBX-D77A4FF9"
+    android:layout_marginTop="12dp"
+    android:inputType="textCapCharacters"/>
+    
+    <TextView
+    android:id="@+id/txtDeviceHint"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Masukkan Device ID yang tampil pada Soundbox"
+    android:textSize="12sp"
+    android:layout_marginTop="4dp"/>
+
+    <Button
+    android:id="@+id/btnPilihQris"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="PILIH QRIS"
+    android:layout_marginTop="8dp"/>
+
+    <Button
+    android:id="@+id/btnDaftar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="DAFTARKAN"
+    android:layout_marginTop="8dp"/>
+
     <ImageView
     android:id="@+id/imgQris"
     android:layout_width="match_parent"
