@@ -14,49 +14,48 @@ object RegisterClient {
     fun uploadQris(
     file: File,
     deviceId: String
-    ): String?
+): String? {
 
-        return try {
+    return try {
 
-            val requestFile =
-                file.asRequestBody(
-                    "image/*".toMediaTypeOrNull()
+        val requestFile =
+            file.asRequestBody(
+                "image/*".toMediaTypeOrNull()
+            )
+
+        val body =
+            MultipartBody.Builder()
+                .setType(
+                    MultipartBody.FORM
                 )
+                .addFormDataPart(
+                    "device_id",
+                    deviceId
+                )
+                .addFormDataPart(
+                    "file",
+                    file.name,
+                    requestFile
+                )
+                .build()
 
-            val body =
-                MultipartBody.Builder()
-                    .setType(
-                        MultipartBody.FORM
-                    )
-                    .addFormDataPart(
-                         "device_id",
-                         deviceId
-                    )
-                    .addFormDataPart(
-                        "file",
-                        file.name,
-                        requestFile
-                    )
-                    .build()
+        val request =
+            Request.Builder()
+                .url(
+                    Config.REGISTER_URL
+                )
+                .post(body)
+                .build()
 
-            val request =
-                Request.Builder()
-                    .url(
-                        Config.REGISTER_URL
-                    )
-                    .post(body)
-                    .build()
+        client.newCall(request)
+            .execute()
+            .body
+            ?.string()
 
-            client.newCall(request)
-                .execute()
-                .body
-                ?.string()
+    } catch (e: Exception) {
 
-        } catch (e: Exception) {
+        e.printStackTrace()
 
-            e.printStackTrace()
-
-            null
-        }
+        null
     }
 }
