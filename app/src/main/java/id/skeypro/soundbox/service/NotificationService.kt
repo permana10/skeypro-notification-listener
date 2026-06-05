@@ -10,9 +10,7 @@ import org.json.JSONObject
 import kotlin.concurrent.thread
 
 class NotificationService : NotificationListenerService() {
-
     private val keywords = listOf(
-
         "diterima",
         "masuk",
         "berhasil",

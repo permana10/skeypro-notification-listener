@@ -178,6 +178,32 @@ thread {
                 "status"
             )
 
+        val packages =
+    mutableSetOf<String>()
+
+        val jsonPackages =
+    json.optJSONArray(
+        "allowed_packages"
+    )
+
+        if (jsonPackages != null) {
+
+        for (
+        i in 0 until
+        jsonPackages.length()
+        ) {
+
+        packages.add(
+            jsonPackages.getString(i)
+        )
+    }
+}
+
+        PrefHelper.saveAllowedPackages(
+            this@MainActivity,
+            packages
+        )
+
         PrefHelper.saveRegistration(
             this@MainActivity,
             deviceId,
@@ -318,6 +344,7 @@ thread {
     popup.show()
 }
 
+        
         val registered =
     PrefHelper.isRegistered(this)
 
