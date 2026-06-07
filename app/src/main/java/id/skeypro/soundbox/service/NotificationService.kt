@@ -12,8 +12,6 @@ import kotlin.concurrent.thread
 class NotificationService : NotificationListenerService() {
     private val keywords = listOf(
         "diterima",
-        "masuk",
-        "berhasil",
         "pembayaran",
         "qris"
 
@@ -111,8 +109,11 @@ class NotificationService : NotificationListenerService() {
                 "voucher",
                 "cashback",
                 "iklan",
-                "tagihan"
-
+                "tagihan",
+                "tagihan",
+                "pencairan",
+                "akun bank",
+                "rekening"
             )
 
             if (
