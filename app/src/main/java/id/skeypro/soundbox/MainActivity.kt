@@ -22,6 +22,7 @@ import android.widget.PopupMenu
 class MainActivity : AppCompatActivity() {
 private var selectedUri: Uri? = null
 
+private var replaceQrisMode = false
 private var qrisLocked = false
 private val pickImage =
     registerForActivityResult(
@@ -29,14 +30,211 @@ private val pickImage =
     ) { uri ->
 
     if (uri != null) {
-
     selectedUri = uri
-
     findViewById<ImageView>(
         R.id.imgQris
     ).setImageURI(uri)
+
+    if(replaceQrisMode){
+        replaceQrisMode = false
+        val deviceId =
+            PrefHelper.getDeviceId(this)
+        registerQris(deviceId)
+    }
    }
  }
+
+private fun registerQris(
+    deviceIdInput: String
+){
+
+    if(selectedUri == null){
+        return
+    }
+
+    findViewById<ProgressBar>(
+        R.id.progressRegister
+    ).visibility = View.VISIBLE
+
+    thread {
+
+        try {
+
+            val input =
+                contentResolver
+                    .openInputStream(
+                        selectedUri!!
+                    )
+
+            val tempFile =
+                File(
+                    cacheDir,
+                    "qris.jpg"
+                )
+
+            input?.use { inp ->
+
+                tempFile.outputStream()
+                    .use { out ->
+
+                        inp.copyTo(out)
+
+                    }
+            }
+
+            val response =
+                RegisterClient
+                    .uploadQris(
+                        tempFile,
+                        deviceIdInput
+                    )
+
+            runOnUiThread {
+
+                findViewById<ProgressBar>(
+                    R.id.progressRegister
+                ).visibility = View.GONE
+
+                if(response != null){
+
+                    val json =
+                        JSONObject(response)
+
+                    if(
+                        json.optBoolean(
+                            "success",
+                            false
+                        )
+                    ){
+
+                        val deviceId =
+                            json.optString(
+                                "device_id"
+                            )
+
+                        val merchant =
+                            json.optString(
+                                "merchant"
+                            )
+
+                        val provider =
+                            json.optString(
+                                "provider"
+                            )
+
+                        val status =
+                            json.optString(
+                                "status"
+                            )
+
+                        val packages =
+                            mutableSetOf<String>()
+
+                        val jsonPackages =
+                            json.optJSONArray(
+                                "allowed_packages"
+                            )
+
+                        if(jsonPackages != null){
+
+                            for(
+                                i in 0 until
+                                jsonPackages.length()
+                            ){
+
+                                packages.add(
+                                    jsonPackages.getString(i)
+                                )
+                            }
+                        }
+
+                        PrefHelper.saveAllowedPackages(
+                            this@MainActivity,
+                            packages
+                        )
+
+                        PrefHelper.saveRegistration(
+                            this@MainActivity,
+                            deviceId,
+                            merchant,
+                            provider,
+                            status
+                        )
+
+                        val qrisFile =
+                            File(
+                                filesDir,
+                                "qris.jpg"
+                            )
+
+                        tempFile.copyTo(
+                            qrisFile,
+                            overwrite = true
+                        )
+
+                        findViewById<TextView>(
+                            R.id.txtDeviceId
+                        ).text =
+                            "ID : $deviceId"
+
+                        findViewById<TextView>(
+                            R.id.txtMerchant
+                        ).text =
+                            "Merchant : $merchant"
+
+                        findViewById<TextView>(
+                            R.id.txtProvider
+                        ).text =
+                            "Provider : $provider"
+
+                        findViewById<TextView>(
+                            R.id.txtStatus
+                        ).text =
+                            "Status : $status"
+
+                        findViewById<TextView>(
+                            R.id.txtConnection
+                        ).text =
+                            "● Connected"
+
+                        findViewById<android.widget.EditText>(
+                            R.id.edtDeviceId
+                        ).visibility = View.GONE
+
+                        findViewById<TextView>(
+                            R.id.txtDeviceHint
+                        ).visibility = View.GONE
+
+                        findViewById<android.widget.Button>(
+                            R.id.btnPilihQris
+                        ).visibility = View.GONE
+
+                        findViewById<android.widget.Button>(
+                            R.id.btnDaftar
+                        ).visibility = View.GONE
+
+findViewById<ImageView>(
+                R.id.imgQris
+           ).setImageURI(
+    Uri.fromFile(qrisFile)
+)
+                    }
+                }
+            }
+
+        } catch(e: Exception){
+
+            e.printStackTrace()
+
+            runOnUiThread {
+
+                findViewById<ProgressBar>(
+                    R.id.progressRegister
+                ).visibility = View.GONE
+            }
+        }
+    }
+}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,192 +283,24 @@ btnPilihQris.setOnClickListener {
     )
 
 btnDaftar.setOnClickListener {
+
     val deviceIdInput =
-        findViewById<
-            android.widget.EditText
-        >(
+        findViewById<android.widget.EditText>(
             R.id.edtDeviceId
         )
         .text
         .toString()
         .trim()
 
-    if (deviceIdInput.isEmpty()) {
+    if(deviceIdInput.isEmpty()){
         return@setOnClickListener
     }
 
-    if (selectedUri == null) {
-        return@setOnClickListener
-    }
-
-    findViewById<ProgressBar>(
-    R.id.progressRegister
-).visibility = View.VISIBLE
-
-thread {
-
-    try {
-
-        val input =
-            contentResolver
-                .openInputStream(
-                    selectedUri!!
-                )
-
-        val tempFile =
-            java.io.File(
-                cacheDir,
-                "qris.jpg"
-            )
-
-        input?.use { inp ->
-
-            tempFile.outputStream()
-                .use { out ->
-
-                    inp.copyTo(out)
-
-                }
-        }
-
-        val response =
-            RegisterClient
-                .uploadQris(
-                    tempFile,
-                    deviceIdInput
-                )
-
-        runOnUiThread {
-
-            findViewById<ProgressBar>(
-                R.id.progressRegister
-            ).visibility = View.GONE
-
-            if (response != null) {
-
-    val json =
-        JSONObject(response)
-
-    if (
-        json.optBoolean(
-            "success",
-            false
-        )
-    ) {
-
-        val deviceId =
-            json.optString(
-                "device_id"
-            )
-
-        val merchant =
-            json.optString(
-                "merchant"
-            )
-
-        val provider =
-            json.optString(
-                "provider"
-            )
-
-        val status =
-            json.optString(
-                "status"
-            )
-
-        val packages =
-    mutableSetOf<String>()
-
-        val jsonPackages =
-    json.optJSONArray(
-        "allowed_packages"
+    registerQris(
+        deviceIdInput
     )
-
-        if (jsonPackages != null) {
-
-        for (
-        i in 0 until
-        jsonPackages.length()
-        ) {
-
-        packages.add(
-            jsonPackages.getString(i)
-        )
-    }
 }
-
-        PrefHelper.saveAllowedPackages(
-            this@MainActivity,
-            packages
-        )
-
-        PrefHelper.saveRegistration(
-            this@MainActivity,
-            deviceId,
-            merchant,
-            provider,
-            status
-
-        )
-
-        val qrisFile =
-            java.io.File(
-                filesDir,
-                "qris.jpg"
-            )
-
-        tempFile.copyTo(
-            qrisFile,
-            overwrite = true
-        )
-
-        qrisLocked = true
-
-        txtDeviceId.text =
-            "ID : $deviceId"
-
-        txtMerchant.text =
-            "Merchant : $merchant"
-
-        txtProvider.text =
-            "Provider : $provider"
-
-        txtStatus.text =
-            "Status : $status"
-
-        txtConnection.text =
-            "● Connected"
-
-        findViewById<android.widget.EditText>(
-            R.id.edtDeviceId
-        ).visibility = View.GONE
-
-        findViewById<android.widget.Button>(
-            R.id.btnPilihQris
-        ).visibility = View.GONE
-
-        findViewById<android.widget.Button>(
-            R.id.btnDaftar
-        ).visibility = View.GONE
-    }
-}
-
-        }
-
-    } catch (e: Exception) {
-
-        e.printStackTrace()
-
-        runOnUiThread {
-
-            findViewById<ProgressBar>(
-                R.id.progressRegister
-            ).visibility = View.GONE
-        }
-    }
-  }
-}       
-
+          
      val btnMenu =
     findViewById<ImageButton>(
         R.id.btnMenu
@@ -320,13 +350,12 @@ thread {
         .setPositiveButton(
             "Ya"
         ) { _, _ ->
+        replaceQrisMode = true
+        pickImage.launch(
+        "image/*"
+        )
 
-            pickImage.launch(
-                "image/*"
-            )
-
-        }
-
+}
         .setNegativeButton(
             "Tidak",
             null

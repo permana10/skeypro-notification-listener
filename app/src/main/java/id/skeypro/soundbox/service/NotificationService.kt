@@ -31,7 +31,6 @@ class NotificationService : NotificationListenerService() {
     ) {
 
         super.onNotificationPosted(sbn)
-
         try {
 
             val extras =
@@ -89,13 +88,9 @@ class NotificationService : NotificationListenerService() {
             ) {
 
                 Log.d(
-
                     "SKEYPRO",
-
                     "Ignored Package: $packageName"
-
                 )
-
                 return
             }
 
@@ -117,44 +112,29 @@ class NotificationService : NotificationListenerService() {
             )
 
             if (
-
                 blockedWords.any {
-
                     content.contains(it)
-
                 }
 
             ) {
 
                 Log.d(
-
                     "SKEYPRO",
-
                     "Blocked Content: $title | $text"
-
                 )
-
                 return
             }
 
             if (
-
                 !keywords.any {
-
                     content.contains(it)
-
                 }
-
             ) {
 
                 Log.d(
-
                     "SKEYPRO",
-
                     "Ignored Content: $title | $text"
-
                 )
-
                 return
             }
 
@@ -197,30 +177,20 @@ class NotificationService : NotificationListenerService() {
 
                 val success =
                     WebhookClient.send(
-
                         Config.WEBHOOK_URL,
-
                         payload
-
                     )
 
                 Log.d(
-
                     "SKEYPRO",
-
                     "Webhook Result = $success"
-
                 )
             }
 
         } catch (e: Exception) {
-
             Log.e(
-
                 "SKEYPRO",
-
                 "Notification Error",
-
                 e
 
             )
