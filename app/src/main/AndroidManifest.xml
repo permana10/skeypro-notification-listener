@@ -13,7 +13,7 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.SKEYPRO">
 
-        <activity
+        <activity>
             android:name=".InfoActivity"
             android:exported="false"/>
 
