@@ -4,7 +4,6 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher"
@@ -13,10 +12,11 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.SKEYPRO">
 
-        <activity>
+        <activity
             android:name=".InfoActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 
