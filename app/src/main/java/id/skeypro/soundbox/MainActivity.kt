@@ -20,10 +20,15 @@ import android.widget.ImageButton
 import android.widget.PopupMenu
 
 class MainActivity : AppCompatActivity() {
-private var selectedUri: Uri? = null
 
+private var selectedUri: Uri? = null
 private var replaceQrisMode = false
 private var qrisLocked = false
+private var unreadNotif = false
+private var updateAvailable = false
+private var latestVersion = ""
+private var latestApkUrl = ""
+
 private val pickImage =
     registerForActivityResult(
         ActivityResultContracts.GetContent()
@@ -229,6 +234,26 @@ private fun registerQris(deviceIdInput: String){
     }
 }
 
+private fun checkServerInfo(){
+    thread {
+        try{
+
+            // nanti request ke server
+            // /api/app_info?device_id=xxxx
+
+            // contoh hasil:
+            // unreadNotif = true
+            // updateAvailable = true
+            // latestVersion = "1.0.3"
+            // latestApkUrl = "https://....apk"
+
+        }catch(e: Exception){
+            e.printStackTrace()
+        }
+    }
+}
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -241,6 +266,8 @@ private fun registerQris(deviceIdInput: String){
         }
 
         setContentView(R.layout.activity_main)
+        checkServerInfo()
+        android.util.Log.d("SKEYBOX", "CHECK SERVER INFO")
         
         val txtDeviceId =
             findViewById<TextView>(R.id.txtDeviceId)
@@ -308,6 +335,9 @@ btnDaftar.setOnClickListener {
         )
 
     popup.menu.add(
+    if(unreadNotif)
+        "Notifikasi ●"
+    else
         "Notifikasi"
     )
 
@@ -320,48 +350,77 @@ btnDaftar.setOnClickListener {
     )
 
     popup.menu.add(
+    if(updateAvailable)
+        "Update ●"
+    else
         "Update"
     )
 
     popup.setOnMenuItemClickListener {
 
-        when(it.title.toString()){
+    when(it.title.toString()){
 
-            "Ganti QRIS" -> {
+        "Notifikasi",
+        "Notifikasi ●" -> {
 
-    androidx.appcompat.app.AlertDialog
-        .Builder(this)
-
-        .setTitle(
-            "Ganti QRIS"
-        )
-
-        .setMessage(
-            "Yakin ingin mengganti QRIS?"
-        )
-
-        .setPositiveButton(
-            "Ya"
-        ) { _, _ ->
-        replaceQrisMode = true
-        pickImage.launch(
-        "image/*"
-        )
-
-}
-        .setNegativeButton(
-            "Tidak",
-            null
-        )
-
-        .show()
-
-    true
-}
-
-            else -> true
+            // nanti buka halaman notifikasi
+            true
         }
+
+        "Ganti QRIS" -> {
+
+            androidx.appcompat.app.AlertDialog
+                .Builder(this)
+
+                .setTitle(
+                    "Ganti QRIS"
+                )
+
+                .setMessage(
+                    "Yakin ingin mengganti QRIS?"
+                )
+
+                .setPositiveButton(
+                    "Ya"
+                ) { _, _ ->
+
+                    replaceQrisMode = true
+
+                    pickImage.launch(
+                        "image/*"
+                    )
+                }
+
+                .setNegativeButton(
+                    "Tidak",
+                    null
+                )
+
+                .show()
+
+            true
+        }
+
+        "Informasi" -> {
+            startActivity(
+                Intent(
+                    this,
+                    InfoActivity::class.java
+                )
+            )
+            true
+        }
+
+        "Update",
+        "Update ●" -> {
+
+            // nanti buka halaman update
+            true
+        }
+
+        else -> true
     }
+}
 
     popup.show()
 }
@@ -369,9 +428,7 @@ btnDaftar.setOnClickListener {
         
         val registered =
     PrefHelper.isRegistered(this)
-
     qrisLocked = registered
-
         if (registered) {
 
             val deviceId =

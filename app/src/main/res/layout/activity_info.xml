@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SKEYPRO SOUNDBOX"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="
+SKEYPRO SOUNDBOX adalah aplikasi penerima notifikasi pembayaran QRIS yang terhubung dengan perangkat Soundbox berbasis ESP32.
+
+Fitur:
+• Registrasi QRIS secara otomatis.
+• Sinkronisasi dengan perangkat Soundbox.
+• Pemutaran suara notifikasi pembayaran.
+• Update firmware perangkat melalui server.
+• Dukungan berbagai provider QRIS.
+
+Pengaturan yang harus diaktifkan:
+1. Izin Akses Notifikasi.
+2. Koneksi Internet.
+3. QRIS harus sudah terdaftar.
+
+Cara penggunaan:
+1. Jalankan perangkat Soundbox.
+2. Masukkan Device ID yang tampil di LCD.
+3. Pilih dan upload gambar QRIS.
+4. Tunggu proses registrasi selesai.
+5. Setelah status aktif, aplikasi siap digunakan.
+
+Jika terjadi kendala, silakan hubungi layanan bantuan SKEYPRO."
+            android:textSize="16sp"
+            android:lineSpacingExtra="4dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="\nPowered by SKEYPRO.ID"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:paddingTop="24dp"/>
+
+    </LinearLayout>
+
+</ScrollView>
