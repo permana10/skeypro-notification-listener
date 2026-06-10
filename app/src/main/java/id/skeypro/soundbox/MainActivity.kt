@@ -44,10 +44,7 @@ private val pickImage =
    }
  }
 
-private fun registerQris(
-    deviceIdInput: String
-){
-
+private fun registerQris(deviceIdInput: String){
     if(selectedUri == null){
         return
     }
@@ -57,9 +54,7 @@ private fun registerQris(
     ).visibility = View.VISIBLE
 
     thread {
-
         try {
-
             val input =
                 contentResolver
                     .openInputStream(
@@ -213,11 +208,9 @@ private fun registerQris(
                             R.id.btnDaftar
                         ).visibility = View.GONE
 
-findViewById<ImageView>(
-                R.id.imgQris
-           ).setImageURI(
-    Uri.fromFile(qrisFile)
-)
+                        findViewById<ImageView>(
+                            R.id.imgQris
+                        ).setImageURI(Uri.fromFile(qrisFile))
                     }
                 }
             }
@@ -410,6 +403,9 @@ btnDaftar.setOnClickListener {
     
              findViewById<android.widget.EditText>(
     R.id.edtDeviceId
+             ).visibility = View.GONE
+             findViewById<TextView>(
+    R.id.txtDeviceHint
              ).visibility = View.GONE
              findViewById<android.widget.Button>(
     R.id.btnPilihQris
