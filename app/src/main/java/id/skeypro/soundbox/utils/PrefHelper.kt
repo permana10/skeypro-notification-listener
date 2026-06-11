@@ -11,8 +11,7 @@ object PrefHelper {
         deviceId: String,
         merchant: String,
         provider: String,
-        status: String,
-        
+        status: String
     ) {
 
         context
@@ -23,12 +22,11 @@ object PrefHelper {
             .edit()
             .putBoolean("registered", true)
             .putString("device_id", deviceId)
-            .putString("merchant", merchant)            
+            .putString("merchant", merchant)
             .putString("provider", provider)
-            .putString("status", status)           
+            .putString("status", status)
             .apply()
     }
-  
 
     fun isRegistered(
         context: Context
@@ -79,15 +77,15 @@ object PrefHelper {
         context: Context
     ): String {
 
-    return context
-        .getSharedPreferences(
-            PREF_NAME,
-            Context.MODE_PRIVATE
-        )
-        .getString(
-            "provider",
-            "UNKNOWN"
-        ) ?: "UNKNOWN"
+        return context
+            .getSharedPreferences(
+                PREF_NAME,
+                Context.MODE_PRIVATE
+            )
+            .getString(
+                "provider",
+                "UNKNOWN"
+            ) ?: "UNKNOWN"
     }
 
     fun getStatus(
@@ -106,89 +104,125 @@ object PrefHelper {
     }
 
     fun clearRegistration(
-    context: Context
-) {
-    context
-        .getSharedPreferences(
-            PREF_NAME,
-            Context.MODE_PRIVATE
-        )
-        .edit()
-        .putBoolean(
-            "registered",
-            false
-        )
-        .remove("device_id")
-        .remove("merchant")
-        .remove("provider")
-        .remove("status")
-        .remove("allowed_packages")
-        .remove("keywords")
-        .remove("blocked_words")
-        .apply()
-}
+        context: Context
+    ) {
 
-fun getKeywords(
-    context: Context
-): Set<String> {
+        context
+            .getSharedPreferences(
+                PREF_NAME,
+                Context.MODE_PRIVATE
+            )
+            .edit()
+            .putBoolean(
+                "registered",
+                false
+            )
+            .remove("device_id")
+            .remove("merchant")
+            .remove("provider")
+            .remove("status")
+            .remove("allowed_packages")
+            .remove("keywords")
+            .remove("blocked_words")
+            .apply()
+    }
 
-    return context
-        .getSharedPreferences(
-            PREF_NAME,
-            Context.MODE_PRIVATE
-        )
-        .getStringSet(
-            "keywords",
-            emptySet()
-        ) ?: emptySet()
-}
+    fun saveKeywords(
+        context: Context,
+        keywords: Set<String>
+    ) {
 
-fun getBlockedWords(
-    context: Context
-): Set<String> {
+        context
+            .getSharedPreferences(
+                PREF_NAME,
+                Context.MODE_PRIVATE
+            )
+            .edit()
+            .putStringSet(
+                "keywords",
+                keywords
+            )
+            .apply()
+    }
 
-    return context
-        .getSharedPreferences(
-            PREF_NAME,
-            Context.MODE_PRIVATE
-        )
-        .getStringSet(
-            "blocked_words",
-            emptySet()
-        ) ?: emptySet()
-  }
+    fun getKeywords(
+        context: Context
+    ): Set<String> {
 
-     fun saveAllowedPackages(
-    context: Context,
-    packages: Set<String>
-) {
+        return context
+            .getSharedPreferences(
+                PREF_NAME,
+                Context.MODE_PRIVATE
+            )
+            .getStringSet(
+                "keywords",
+                emptySet()
+            ) ?: emptySet()
+    }
 
-    context
-        .getSharedPreferences(
-            PREF_NAME,
-            Context.MODE_PRIVATE
-        )
-        .edit()
-        .putStringSet(
-            "allowed_packages",
-            packages
-        )
-        .apply()
-}
+    fun saveBlockedWords(
+        context: Context,
+        blockedWords: Set<String>
+    ) {
 
-fun getAllowedPackages(
-    context: Context
-): Set<String> {
+        context
+            .getSharedPreferences(
+                PREF_NAME,
+                Context.MODE_PRIVATE
+            )
+            .edit()
+            .putStringSet(
+                "blocked_words",
+                blockedWords
+            )
+            .apply()
+    }
 
-    return context
-        .getSharedPreferences(
-            PREF_NAME,
-            Context.MODE_PRIVATE
-        )
-        .getStringSet(
-            "allowed_packages",
-            emptySet()
-        ) ?: emptySet()
+    fun getBlockedWords(
+        context: Context
+    ): Set<String> {
+
+        return context
+            .getSharedPreferences(
+                PREF_NAME,
+                Context.MODE_PRIVATE
+            )
+            .getStringSet(
+                "blocked_words",
+                emptySet()
+            ) ?: emptySet()
+    }
+
+    fun saveAllowedPackages(
+        context: Context,
+        packages: Set<String>
+    ) {
+
+        context
+            .getSharedPreferences(
+                PREF_NAME,
+                Context.MODE_PRIVATE
+            )
+            .edit()
+            .putStringSet(
+                "allowed_packages",
+                packages
+            )
+            .apply()
+    }
+
+    fun getAllowedPackages(
+        context: Context
+    ): Set<String> {
+
+        return context
+            .getSharedPreferences(
+                PREF_NAME,
+                Context.MODE_PRIVATE
+            )
+            .getStringSet(
+                "allowed_packages",
+                emptySet()
+            ) ?: emptySet()
     }
 }
-
