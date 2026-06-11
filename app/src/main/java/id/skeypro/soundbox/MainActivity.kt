@@ -161,17 +161,11 @@ if(jsonKeywords != null){
         i in 0 until
         jsonKeywords.length()
     ){
-
         keywords.add(
             jsonKeywords.getString(i)
         )
     }
 }
-
-PrefHelper.saveKeywords(
-    this@MainActivity,
-    keywords
-)
 
 val blockedWords = mutableSetOf<String>()
 val jsonBlockedWords =
@@ -184,17 +178,11 @@ if(jsonBlockedWords != null){
         i in 0 until
         jsonBlockedWords.length()
     ){
-
         blockedWords.add(
             jsonBlockedWords.getString(i)
         )
     }
 }
-
-PrefHelper.saveBlockedWords(
-    this@MainActivity,
-    blockedWords
-)
 
                         PrefHelper.saveRegistration(
                             this@MainActivity,
