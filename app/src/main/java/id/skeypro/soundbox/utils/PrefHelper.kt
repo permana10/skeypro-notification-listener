@@ -116,7 +116,7 @@ object PrefHelper {
             )
             .getString(
                 "filter",
-                ""UNKNOWN"
+                "UNKNOWN"
             ) ?: ""UNKNOWN"
     }
 
