@@ -107,10 +107,10 @@ object PrefHelper {
                 ""
             ) ?: ""
     }
-    fun clearRegistration(
-        context: Context
-    ) {
 
+    fun clearRegistration(
+    context: Context
+) {
     context
         .getSharedPreferences(
             PREF_NAME,
@@ -121,22 +121,13 @@ object PrefHelper {
             "registered",
             false
         )
-
-fun saveKeywords(
-    context: Context,
-    keywords: Set<String>
-) {
-
-    context
-        .getSharedPreferences(
-            PREF_NAME,
-            Context.MODE_PRIVATE
-        )
-        .edit()
-        .putStringSet(
-            "keywords",
-            keywords
-        )
+        .remove("device_id")
+        .remove("merchant")
+        .remove("provider")
+        .remove("status")
+        .remove("allowed_packages")
+        .remove("keywords")
+        .remove("blocked_words")
         .apply()
 }
 
@@ -155,24 +146,6 @@ fun getKeywords(
         ) ?: emptySet()
 }
 
-fun saveBlockedWords(
-    context: Context,
-    blockedWords: Set<String>
-) {
-
-    context
-        .getSharedPreferences(
-            PREF_NAME,
-            Context.MODE_PRIVATE
-        )
-        .edit()
-        .putStringSet(
-            "blocked_words",
-            blockedWords
-        )
-        .apply()
-}
-
 fun getBlockedWords(
     context: Context
 ): Set<String> {
@@ -187,16 +160,6 @@ fun getBlockedWords(
             emptySet()
         ) ?: emptySet()
   }
-
-        .remove("device_id")
-        .remove("merchant")
-        .remove("provider")
-        .remove("status")
-        .remove("allowed_packages")
-        .remove("keywords")
-        .remove("blocked_words")
-        .apply()
-   }
 
      fun saveAllowedPackages(
     context: Context,
