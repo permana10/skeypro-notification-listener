@@ -10,14 +10,8 @@ import org.json.JSONObject
 import kotlin.concurrent.thread
 
 class NotificationService : NotificationListenerService() {
-    private val keywords = listOf(
-        "diterima",
-        "pembayaran",
-        "qris"
-
-    )
-
     override fun onListenerConnected() {
+
         super.onListenerConnected()
 
         Log.d(
@@ -95,48 +89,48 @@ class NotificationService : NotificationListenerService() {
             }
 
             val content =
-                (title + " " + text)
-                    .lowercase()
+    (title + " " + text)
+        .lowercase()
 
-            val blockedWords = listOf(
+val keywords =
+    PrefHelper.getKeywords(
+        this
+    )
 
-                "promo",
-                "voucher",
-                "cashback",
-                "iklan",
-                "tagihan",
-                "tagihan",
-                "pencairan",
-                "akun bank",
-                "rekening"
-            )
+val blockedWords =
+    PrefHelper.getBlockedWords(
+        this
+    )
 
-            if (
-                blockedWords.any {
-                    content.contains(it)
-                }
+if (
+    blockedWords.isNotEmpty()
+    &&
+    blockedWords.any {
+        content.contains(it)
+    }
+) {
 
-            ) {
+    Log.d(
+        "SKEYPRO",
+        "Blocked Content: $title | $text"
+    )
+    return
+}
 
-                Log.d(
-                    "SKEYPRO",
-                    "Blocked Content: $title | $text"
-                )
-                return
-            }
+if (
+    keywords.isNotEmpty()
+    &&
+    !keywords.any {
+        content.contains(it)
+    }
+) {
 
-            if (
-                !keywords.any {
-                    content.contains(it)
-                }
-            ) {
-
-                Log.d(
-                    "SKEYPRO",
-                    "Ignored Content: $title | $text"
-                )
-                return
-            }
+    Log.d(
+        "SKEYPRO",
+        "Ignored Content: $title | $text"
+    )
+    return
+}
 
             val payload =
                 JSONObject().apply {

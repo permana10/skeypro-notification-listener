@@ -153,6 +153,57 @@ private fun registerQris(deviceIdInput: String){
                             packages
                         )
 
+val keywords = mutableSetOf<String>()
+
+val jsonKeywords =
+    json.optJSONArray(
+        "keywords"
+    )
+
+if(jsonKeywords != null){
+
+    for(
+        i in 0 until
+        jsonKeywords.length()
+    ){
+
+        keywords.add(
+            jsonKeywords.getString(i)
+        )
+    }
+}
+
+PrefHelper.saveKeywords(
+    this@MainActivity,
+    keywords
+)
+
+val blockedWords =
+    mutableSetOf<String>()
+
+val jsonBlockedWords =
+    json.optJSONArray(
+        "blocked_words"
+    )
+
+if(jsonBlockedWords != null){
+
+    for(
+        i in 0 until
+        jsonBlockedWords.length()
+    ){
+
+        blockedWords.add(
+            jsonBlockedWords.getString(i)
+        )
+    }
+}
+
+PrefHelper.saveBlockedWords(
+    this@MainActivity,
+    blockedWords
+)
+
                         PrefHelper.saveRegistration(
                             this@MainActivity,
                             deviceId,
