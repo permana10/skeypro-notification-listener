@@ -184,15 +184,22 @@ if(jsonBlockedWords != null){
     }
 }
 
+   PrefHelper.saveKeywords(
+    this@MainActivity,
+    keywords
+)
+
+PrefHelper.saveBlockedWords(
+    this@MainActivity,
+    blockedWords
+)
+
                         PrefHelper.saveRegistration(
                             this@MainActivity,
                             deviceId,
                             merchant,
                             provider,
-                            status,
-                            keywords,
-                            blockedWords
-
+                            status,                           
                         )
 
                         val qrisFile =

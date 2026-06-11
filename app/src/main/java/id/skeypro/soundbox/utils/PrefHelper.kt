@@ -12,8 +12,7 @@ object PrefHelper {
         merchant: String,
         provider: String,
         status: String,
-        keywords: Set<String>,
-        blockedWords: Set<String>
+        
     ) {
 
         context
@@ -26,9 +25,7 @@ object PrefHelper {
             .putString("device_id", deviceId)
             .putString("merchant", merchant)            
             .putString("provider", provider)
-            .putString("status", status)
-            .putStringSet("keywords", keywords)
-            .putStringSet("blocked_words", blockedWords)
+            .putString("status", status)           
             .apply()
     }
   
