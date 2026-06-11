@@ -12,8 +12,8 @@ object PrefHelper {
         merchant: String,
         provider: String,
         status: String,
-        keywords: String,
-        blockedWords: String
+        keywords: Set<String>,
+        blockedWords: Set<String>
     ) {
 
         context

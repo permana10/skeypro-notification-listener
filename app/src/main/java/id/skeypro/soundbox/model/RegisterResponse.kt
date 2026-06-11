@@ -5,6 +5,6 @@ data class RegisterResponse(
     val device_id: String,
     val merchant: String,
     val status: String,
-    val keywords: String,
-    val blockedWords: String
+    val keywords: List<String>,
+    val blocked_words: List<String>
 )
