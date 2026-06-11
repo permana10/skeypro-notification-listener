@@ -11,7 +11,8 @@ object PrefHelper {
         deviceId: String,
         merchant: String,
         provider: String,
-        status: String
+        status: String,
+        filter: String
     ) {
 
         context
@@ -25,6 +26,7 @@ object PrefHelper {
             .putString("merchant", merchant)
             .putString("provider", provider)
             .putString("status", status)
+            .putString("filter", filter)
             .apply()
     }
 
@@ -103,6 +105,21 @@ object PrefHelper {
             ) ?: ""
     }
 
+    fun getFilter(
+        context: Context
+    ): String {
+
+        return context
+            .getSharedPreferences(
+                PREF_NAME,
+                Context.MODE_PRIVATE
+            )
+            .getString(
+                "filter",
+                ""UNKNOWN"
+            ) ?: ""UNKNOWN"
+    }
+
     fun clearRegistration(
         context: Context
     ) {
@@ -121,9 +138,7 @@ object PrefHelper {
             .remove("merchant")
             .remove("provider")
             .remove("status")
-            .remove("allowed_packages")
-            .remove("keywords")
-            .remove("blocked_words")
+            .remove("filter")
             .apply()
     }
 
