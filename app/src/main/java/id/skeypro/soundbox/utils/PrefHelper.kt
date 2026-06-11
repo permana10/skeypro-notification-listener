@@ -122,6 +122,8 @@ object PrefHelper {
         .remove("provider")
         .remove("status")
         .remove("allowed_packages")
+        .remove("keywords")
+        .remove("blocked_words")
         .apply()
    }
 
@@ -157,5 +159,71 @@ fun getAllowedPackages(
             emptySet()
         ) ?: emptySet()
     }
+
+fun saveKeywords(
+    context: Context,
+    keywords: Set<String>
+) {
+
+    context
+        .getSharedPreferences(
+            PREF_NAME,
+            Context.MODE_PRIVATE
+        )
+        .edit()
+        .putStringSet(
+            "keywords",
+            keywords
+        )
+        .apply()
+}
+
+fun getKeywords(
+    context: Context
+): Set<String> {
+
+    return context
+        .getSharedPreferences(
+            PREF_NAME,
+            Context.MODE_PRIVATE
+        )
+        .getStringSet(
+            "keywords",
+            emptySet()
+        ) ?: emptySet()
+}
+
+fun saveBlockedWords(
+    context: Context,
+    blockedWords: Set<String>
+) {
+
+    context
+        .getSharedPreferences(
+            PREF_NAME,
+            Context.MODE_PRIVATE
+        )
+        .edit()
+        .putStringSet(
+            "blocked_words",
+            blockedWords
+        )
+        .apply()
+}
+
+fun getBlockedWords(
+    context: Context
+): Set<String> {
+
+    return context
+        .getSharedPreferences(
+            PREF_NAME,
+            Context.MODE_PRIVATE
+        )
+        .getStringSet(
+            "blocked_words",
+            emptySet()
+        ) ?: emptySet()
+  }
 }
 
