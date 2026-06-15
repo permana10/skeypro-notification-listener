@@ -301,20 +301,31 @@ private fun checkServerInfo(){
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    super.onCreate(savedInstanceState)
 
-        if (!PermissionHelper.isNotificationAccessEnabled(this)) {
-            startActivity(
-                Intent(
-                    Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
-                )
+    setContentView(R.layout.activity_main)
+
+    if (!PermissionHelper.isNotificationAccessEnabled(this)) {
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Izin Notifikasi")
+            .setMessage(
+                "SKEYBOX memerlukan akses notifikasi untuk mendeteksi pembayaran QRIS dan memutar suara secara otomatis.\n\nTekan OK untuk membuka pengaturan."
             )
-        }
+            .setCancelable(false)
+            .setPositiveButton("OK") { _, _ ->
+                startActivity(
+                    Intent(
+                        Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
+                    )
+                )
+            }
+            .setNegativeButton("Nanti", null)
+            .show()
+    }
 
-        setContentView(R.layout.activity_main)
-        checkServerInfo()
-        android.util.Log.d("SKEYBOX", "CHECK SERVER INFO")
-        
+    checkServerInfo()
+    android.util.Log.d("SKEYBOX", "CHECK SERVER INFO")
+
         val txtDeviceId =
             findViewById<TextView>(R.id.txtDeviceId)
         val txtMerchant =
