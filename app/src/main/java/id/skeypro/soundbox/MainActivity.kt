@@ -509,18 +509,31 @@ btnDaftar.setOnClickListener {
             txtProvider.text =
                 "Provider : $provider"
 
-            txtStatus.text =
+            val txtStatusView =
+                findViewById<TextView>(
+                R.id.txtStatus
+            )
+
+            txtStatusView.text =
                 "Status : $status"
 
-            txtStatus.setTextColor(
+            txtStatusView.setTextColor(
                 getColor(R.color.primary_green)
             )
 
-            txtConnection.text = "● Connected"
-            txtConnection.setTextColor(
-                getColor(R.color.primary_green)
+            val txtConnectionView =
+                findViewById<TextView>(
+                R.id.txtConnection
             )
-    
+
+            txtConnectionView.text =
+                "● Connected"
+
+             
+             txtConnectionView.setTextColor(
+                 getColor(R.color.primary_green)
+             )
+
              findViewById<android.widget.EditText>(
     R.id.edtDeviceId
              ).visibility = View.GONE
