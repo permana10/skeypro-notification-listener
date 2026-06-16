@@ -41,8 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
-            android:text="Aman &amp; Terpercaya"
+            android:layout_marginTop="0dp"
+            android:text="SoundBOX QRIS Unviversal"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"/>
 
@@ -52,7 +52,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/bg_card"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -71,7 +70,7 @@
                 android:layout_marginTop="10dp"
                 android:lineSpacingExtra="4dp"
                 android:textColor="@color/text_primary"
-                android:textSize="14sp"/>
+                android:textSize="12sp"/>
 
         </LinearLayout>
 
@@ -81,8 +80,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="2dp"
             android:orientation="horizontal">
 
             <TextView

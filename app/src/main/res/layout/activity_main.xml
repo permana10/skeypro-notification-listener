@@ -17,9 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
-        android:gravity="center_vertical"
-
+        android:orientation="horizontal"
+        
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,14 +52,15 @@
 
     <!-- Device ID -->
     <TextView
-        android:id="@+id/txtDeviceId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="18dp"
-        android:text="ID : Belum Terdaftar"
-        android:textColor="@color/text_secondary"
-        android:textSize="16sp" />
+    android:id="@+id/txtDeviceId"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="18dp"
+    android:text="ID : Belum Terdaftar"
+    android:textColor="@color/text_secondary"
+    android:textSize="16sp"
+    android:includeFontPadding="false" />
 
     <!-- Status Koneksi -->
     <TextView
@@ -68,15 +68,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="0dp"
         android:paddingLeft="12dp"
-        android:paddingTop="4dp"
+        android:paddingTop="0dp"
         android:paddingRight="12dp"
-        android:paddingBottom="4dp"
+        android:paddingBottom="0dp"
         android:text="● Connected"
         android:textColor="@color/status_connected"
         android:textSize="15sp"
         android:textStyle="bold" />
+    android:includeFontPadding="false" />
 
     <!-- Input Device ID -->
     <EditText
@@ -131,16 +132,16 @@
     android:layout_marginTop="18dp"
     android:orientation="vertical"
     android:padding="12dp"
-    android:background="@drawable/bg_card">
 
     <ImageView
-        android:id="@+id/imgQris"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@android:drawable/ic_menu_gallery"/>
+    android:id="@+id/imgQris"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="0.8"
+    android:maxHeight="350dp"
+    android:adjustViewBounds="true"
+    android:scaleType="fitCenter"
+    android:src="@android:drawable/ic_menu_gallery"/>
 
     <ProgressBar
         android:id="@+id/progressRegister"
@@ -154,7 +155,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="#EEEEEE"/>
+        android:background="@color/divider"
 
     <TextView
         android:id="@+id/txtMerchant"
@@ -162,26 +163,26 @@
         android:layout_height="wrap_content"
         android:text="Merchant : -"
         android:textColor="@color/text_primary"
-        android:textSize="15sp"/>
+        android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/txtProvider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="2dp"
         android:text="Provider : -"
         android:textColor="@color/text_primary"
-        android:textSize="15sp"/>
+        android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/txtStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="2dp"
         android:text="Status : Belum Aktif"
         android:textColor="@color/status_connected"
         android:textStyle="bold"
-        android:textSize="15sp"/>
+        android:textSize="14sp"/>
     </LinearLayout>
 
     <!-- Footer -->
@@ -189,8 +190,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:layout_marginTop="22dp"
-    android:layout_marginBottom="6dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="2dp"
     android:orientation="horizontal">
 
     <TextView
