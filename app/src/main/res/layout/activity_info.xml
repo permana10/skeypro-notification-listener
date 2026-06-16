@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="0dp"
-            android:text="SoundBOX QRIS Unviversal"
+            android:text="Soundbox QRIS Universal"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"/>
 
@@ -52,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:paddingTop="20dp"
             android:orientation="vertical"
             android:padding="16dp">
 
