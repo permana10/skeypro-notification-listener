@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="4dp"
-            android:text="Informasi & Bantuan"
+            android:text="Aman &amp; Terpercaya"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"/>
 
