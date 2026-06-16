@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="1dp"
         android:paddingLeft="12dp"
         android:paddingTop="4dp"
         android:paddingRight="12dp"
@@ -106,10 +106,10 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:layout_marginTop="16dp"
-    android:background="@drawable/bg_button_primary"
+    android:background="@drawable/bg_button_outline"
     android:text="PILIH QRIS"
     android:textAllCaps="false"
-    android:textColor="@color/primary_green"
+    android:textColor="@color/text_secondary"
     android:textStyle="bold"/>
 
     <Button
@@ -168,7 +168,7 @@
         android:id="@+id/txtProvider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="4dp"
         android:text="Provider : -"
         android:textColor="@color/text_primary"
         android:textSize="15sp"/>
@@ -177,7 +177,7 @@
         android:id="@+id/txtStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="4dp"
         android:text="Status : Belum Aktif"
         android:textColor="@color/status_connected"
         android:textStyle="bold"
@@ -185,15 +185,28 @@
     </LinearLayout>
 
     <!-- Footer -->
-    <TextView
-    android:id="@+id/txtFooter"
+    <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:layout_marginTop="14dp"
-    android:layout_marginBottom="10dp"
-    android:text="Powered by SKEYPRO.ID"
-    android:textColor="@color/text_secondary"
-    android:textSize="11sp"/>
+    android:layout_marginTop="22dp"
+    android:layout_marginBottom="6dp"
+    android:orientation="horizontal">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Powered by "
+        android:textColor="@color/text_secondary"
+        android:textSize="10sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SKEYPRO.ID"
+        android:textColor="@color/primary_green"
+        android:textStyle="bold"
+        android:textSize="11sp"/>
+
+</LinearLayout>
 </LinearLayout>

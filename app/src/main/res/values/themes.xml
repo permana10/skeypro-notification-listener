@@ -14,7 +14,7 @@
         <item name="android:windowBackground">@color/background</item>
 
         <!-- Status Bar -->
-        <item name="android:statusBarColor">@color/primary_green_dark</item>
+        <item name="android:statusBarColor">@android:color/white</item>
         <item name="android:windowLightStatusBar">true</item>
 
         <!-- Navigation Bar -->

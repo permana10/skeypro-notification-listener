@@ -392,10 +392,10 @@ btnDaftar.setOnClickListener {
         )
 
     popup.menu.add(
-    if(unreadNotif)
-        "Notifikasi ●"
-    else
-        "Notifikasi"
+        if(unreadNotif)
+            "Notifikasi ●"
+        else
+            "Notifikasi"
     )
 
     popup.menu.add(
@@ -403,81 +403,117 @@ btnDaftar.setOnClickListener {
     )
 
     popup.menu.add(
-        "Informasi"
+    "Informasi"
+)
+
+    popup.menu.add(
+        if(updateAvailable)
+            "Update Aplikasi ●"
+        else
+            "Update Aplikasi"
     )
 
     popup.menu.add(
-    if(updateAvailable)
-        "Update ●"
-    else
-        "Update"
+        "Hapus Akun"
     )
 
     popup.setOnMenuItemClickListener {
 
-    when(it.title.toString()){
+        when(it.title.toString()) {
 
-        "Notifikasi",
-        "Notifikasi ●" -> {
+            "Notifikasi",
+"Notifikasi ●" -> {
 
-            // nanti buka halaman notifikasi
-            true
-        }
-
-        "Ganti QRIS" -> {
-
-            androidx.appcompat.app.AlertDialog
-                .Builder(this)
-
-                .setTitle(
-                    "Ganti QRIS"
-                )
-
-                .setMessage(
-                    "Yakin ingin mengganti QRIS?"
-                )
-
-                .setPositiveButton(
-                    "Ya"
-                ) { _, _ ->
-
-                    replaceQrisMode = true
-
-                    pickImage.launch(
-                        "image/*"
-                    )
-                }
-
-                .setNegativeButton(
-                    "Tidak",
-                    null
-                )
-
-                .show()
-
-            true
-        }
-
-        "Informasi" -> {
-            startActivity(
-                Intent(
-                    this,
-                    InfoActivity::class.java
-                )
+    startActivity(
+        Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(
+                "https://skeypro.id/notifikasi"
             )
-            true
-        }
+        )
+    )
 
-        "Update",
-        "Update ●" -> {
-
-            // nanti buka halaman update
-            true
-        }
-
-        else -> true
-    }
+    true
 }
+
+            "Ganti QRIS" -> {
+
+                androidx.appcompat.app.AlertDialog
+                    .Builder(this)
+
+                    .setTitle(
+                        "Ganti QRIS"
+                    )
+
+                    .setMessage(
+                        "Yakin ingin mengganti QRIS?"
+                    )
+
+                    .setPositiveButton(
+                        "Ya"
+                    ) { _, _ ->
+
+                        replaceQrisMode = true
+
+                        pickImage.launch(
+                            "image/*"
+                        )
+                    }
+
+                    .setNegativeButton(
+                        "Tidak",
+                        null
+                    )
+
+                    .show()
+
+                true
+            }
+
+            "Informasi" -> {
+
+    startActivity(
+        Intent(
+            this,
+            InfoActivity::class.java
+        )
+    )
+
+    true
+}
+
+            "Update Aplikasi",
+"Update Aplikasi ●" -> {
+
+    startActivity(
+        Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(
+                "https://github.com/permana10/skeypro-notification-listener/releases/latest"
+            )
+        )
+    )
+
+    true
+}
+
+            "Hapus Akun" -> {
+
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(
+                            "https://skeypro.id/hapus-akun"
+                        )
+                    )
+                )
+
+                true
+            }
+
+            else -> true
+        }
+    }
 
     popup.show()
 }

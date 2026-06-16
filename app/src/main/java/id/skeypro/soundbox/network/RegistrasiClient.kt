@@ -12,51 +12,76 @@ object RegisterClient {
         OkHttpClient()
 
     fun uploadQris(
-    file: File,
-    deviceId: String
-): String? {
+        file: File,
+        deviceId: String
+    ): String? {
 
-    return try {
+        return try {
 
-        val requestFile =
-            file.asRequestBody(
-                "image/*".toMediaTypeOrNull()
-            )
-
-        val body =
-            MultipartBody.Builder()
-                .setType(
-                    MultipartBody.FORM
+            val requestFile =
+                file.asRequestBody(
+                    "image/*".toMediaTypeOrNull()
                 )
-                .addFormDataPart(
-                    "device_id",
-                    deviceId
-                )
-                .addFormDataPart(
-                    "file",
-                    file.name,
-                    requestFile
-                )
-                .build()
 
-        val request =
-            Request.Builder()
-                .url(
-                    Config.REGISTER_URL
-                )
-                .post(body)
-                .build()
+            val body =
+                MultipartBody.Builder()
+                    .setType(
+                        MultipartBody.FORM
+                    )
+                    .addFormDataPart(
+                        "device_id",
+                        deviceId
+                    )
+                    .addFormDataPart(
+                        "file",
+                        file.name,
+                        requestFile
+                    )
+                    .build()
 
-        client.newCall(request)
-            .execute()
-            .body
-            ?.string()
+            val request =
+                Request.Builder()
+                    .url(
+                        Config.REGISTER_URL
+                    )
+                    .post(body)
+                    .build()
 
-    } catch (e: Exception) {
+            client.newCall(request)
+                .execute()
+                .body
+                ?.string()
 
-        e.printStackTrace()
+        } catch (e: Exception) {
 
-        null
+            e.printStackTrace()
+
+            null
+        }
     }
- }
+
+    fun getInformasi(): String? {
+
+        return try {
+
+            val request =
+                Request.Builder()
+                    .url(
+                        "https://skeypro.id/api/informasi"
+                    )
+                    .get()
+                    .build()
+
+            client.newCall(request)
+                .execute()
+                .body
+                ?.string()
+
+        } catch (e: Exception) {
+
+            e.printStackTrace()
+
+            null
+        }
+    }
 }

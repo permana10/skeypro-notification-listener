@@ -1,50 +1,55 @@
 package id.skeypro.soundbox
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import id.skeypro.soundbox.network.RegisterClient
+import kotlin.concurrent.thread
 
 class InfoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_info)
-findViewById<TextView>(R.id.txtInfo).text = """
-SKEYPRO SOUNDBOX adalah aplikasi penerima notifikasi pembayaran QRIS yang terhubung dengan perangkat Soundbox berbasis ESP32.
+        setContentView(
+            R.layout.activity_info
+        )
 
-Fitur:
-• Registrasi QRIS secara otomatis.
-• Sinkronisasi dengan perangkat Soundbox.
-• Pemutaran suara notifikasi pembayaran.
-• Update firmware perangkat melalui server.
-• Dukungan berbagai provider QRIS.
+        val txtInfo =
+            findViewById<TextView>(
+                R.id.txtInfo
+            )
 
-Pengaturan yang harus diaktifkan:
-1. Izin Akses Notifikasi.
-2. Koneksi Internet.
-3. QRIS harus sudah terdaftar.
+        txtInfo.text =
+            "Memuat informasi..."
 
-Cara penggunaan:
-1. Jalankan perangkat Soundbox.
-2. Masukkan Device ID yang tampil di LCD.
-3. Pilih dan upload gambar QRIS.
-4. Tunggu proses registrasi selesai.
-5. Setelah status aktif, aplikasi siap digunakan.
+        thread {
 
-Jika terjadi kendala, silakan hubungi layanan bantuan SKEYPRO.
-""".trimIndent()
+            val result =
+                RegisterClient
+                    .getInformasi()
+
+            runOnUiThread {
+
+                txtInfo.text =
+                    result
+                        ?: "Gagal memuat informasi."
+            }
+        }
 
         supportActionBar?.title =
             "Informasi"
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(
-            true
-        )
+        supportActionBar
+            ?.setDisplayHomeAsUpEnabled(
+                true
+            )
     }
 
     override fun onSupportNavigateUp(): Boolean {
+
         finish()
+
         return true
     }
 }
