@@ -1,4 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Warna dasar -->
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+
+    <!-- Branding SKEYPRO -->
+    <color name="primary_green">#22C55E</color>
+    <color name="primary_green_dark">#16A34A</color>
+    <color name="primary_green_light">#DCFCE7</color>
+
+    <!-- Background -->
+    <color name="background">#F7F8FA</color>
+    <color name="card_background">#FFFFFF</color>
+
+    <!-- Text -->
+    <color name="text_primary">#1F2937</color>
+    <color name="text_secondary">#6B7280</color>
+
+    <!-- Status -->
+    <color name="status_connected">#22C55E</color>
+    <color name="status_warning">#F59E0B</color>
+    <color name="status_error">#EF4444</color>
+
+    <!-- Border & Divider -->
+    <color name="divider">#E5E7EB</color>
+
 </resources>

@@ -5,8 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/background"
+    android:padding="20dp">
 
+    <!-- Header -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -15,122 +17,156 @@
             android:id="@+id/txtTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:text="SKEYBOX"
-            android:textStyle="bold"
-            android:textSize="32sp"
-            android:layout_centerHorizontal="true"/>
+            android:textColor="@color/text_primary"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <ImageButton
-    android:id="@+id/btnMenu"
-    android:layout_width="40dp"
-    android:layout_height="40dp"
-    android:layout_alignParentEnd="true"
-    android:layout_centerVertical="true"
-    android:background="@android:color/transparent"
-    android:src="@android:drawable/ic_menu_sort_by_size"/>
-            
+            android:id="@+id/btnMenu"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:padding="6dp"
+            android:src="@android:drawable/ic_menu_sort_by_size"
+            android:tint="@color/text_secondary" />
+
     </RelativeLayout>
 
+    <!-- Device ID -->
     <TextView
         android:id="@+id/txtDeviceId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ID : Belum Terdaftar"
-        android:textSize="16sp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="18dp"
+        android:text="ID : Belum Terdaftar"
+        android:textColor="@color/text_secondary"
+        android:textSize="16sp" />
 
+    <!-- Status Koneksi -->
     <TextView
         android:id="@+id/txtConnection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="● Connected"
-        android:textColor="#22C55E"
-        android:textStyle="bold"
-        android:textSize="16sp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="6dp"/>
+        android:layout_marginTop="8dp"
+        android:paddingLeft="12dp"
+        android:paddingTop="4dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="4dp"
+        android:text="● Connected"
+        android:textColor="@color/status_connected"
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
+    <!-- Input Device ID -->
     <EditText
-    android:id="@+id/edtDeviceId"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="Contoh: SBX-D77A4FF9"
-    android:layout_marginTop="12dp"
-    android:inputType="textCapCharacters"/>
-    
+        android:id="@+id/edtDeviceId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:backgroundTint="@color/primary_green"
+        android:hint="Contoh : SBX-D77A4FF9"
+        android:inputType="textCapCharacters"
+        android:padding="10dp"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/text_secondary" />
+
     <TextView
-    android:id="@+id/txtDeviceHint"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Masukkan Device ID yang tampil pada Soundbox"
-    android:textSize="12sp"
-    android:layout_marginTop="4dp"/>
+        android:id="@+id/txtDeviceHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Masukkan Device ID yang tampil pada Soundbox"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp" />
+
+    <!-- Tombol -->
+    <Button
+        android:id="@+id/btnPilihQris"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/bg_button_primary"
+        android:text="Pilih QRIS"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
     <Button
-    android:id="@+id/btnPilihQris"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="PILIH QRIS"
-    android:layout_marginTop="8dp"/>
+        android:id="@+id/btnDaftar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_button_secondary"
+        android:text="Daftarkan"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
-    <Button
-    android:id="@+id/btnDaftar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="DAFTARKAN"
-    android:layout_marginTop="8dp"/>
-
+    <!-- Preview QRIS -->
     <ImageView
-    android:id="@+id/imgQris"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:layout_marginTop="20dp"
-    android:adjustViewBounds="true"
-    android:scaleType="fitCenter"
-    android:src="@android:drawable/ic_menu_gallery"/>
+        android:id="@+id/imgQris"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_card"
+        android:padding="12dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@android:drawable/ic_menu_more"
 
     <ProgressBar
         android:id="@+id/progressRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone" />
 
+    <!-- Informasi Merchant -->
     <TextView
         android:id="@+id/txtMerchant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
         android:text="Merchant : -"
-        android:textSize="16sp"
-        android:layout_marginTop="12dp"/>
+        android:textColor="@color/text_primary"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/txtProvider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="Provider : -"
-        android:textSize="16sp"/>
+        android:textColor="@color/text_primary"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/txtStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Status : Aktif"
-        android:textColor="#22C55E"
-        android:textStyle="bold"
+        android:layout_marginTop="6dp"
+        android:text="Status : Belum Aktif"
+        android:textColor="@color/status_connected"
         android:textSize="16sp"
-        android:layout_marginTop="4dp"/>
+        android:textStyle="bold" />
 
+    <!-- Footer -->
     <TextView
         android:id="@+id/txtFooter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Powered by SKEYPRO.ID"
-        android:textSize="12sp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="6dp"
+        android:text="Powered by SKEYPRO.ID"
+        android:textColor="@color/text_secondary"
+        android:textSize="11sp" />
 
 </LinearLayout>

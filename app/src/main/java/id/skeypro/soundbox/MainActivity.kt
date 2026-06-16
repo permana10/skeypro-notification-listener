@@ -512,8 +512,14 @@ btnDaftar.setOnClickListener {
             txtStatus.text =
                 "Status : $status"
 
-            txtConnection.text =
-                "● Connected"
+            txtStatus.setTextColor(
+                getColor(R.color.primary_green)
+            )
+
+            txtConnection.text = "● Connected"
+            txtConnection.setTextColor(
+                getColor(R.color.primary_green)
+            )
     
              findViewById<android.widget.EditText>(
     R.id.edtDeviceId
@@ -556,8 +562,14 @@ if (qrisFile.exists()) {
             txtStatus.text =
                 "Status : Belum Aktif"
 
-            txtConnection.text =
-                "● Disconnected"
+            txtStatus.setTextColor(
+                getColor(R.color.text_secondary)
+            )
+
+            txtConnection.text = "● Disconnected"
+            txtConnection.setTextColor(
+                getColor(R.color.text_secondary)
+            )
 
             findViewById<android.widget.EditText>(
     R.id.edtDeviceId
