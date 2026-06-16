@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:text="SKEY"
             android:textColor="@color/text_primary"
-            android:textSize="30sp"
+            android:textSize="32sp"
             android:textStyle="bold"/>
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:text="BOX"
             android:textColor="@color/primary_green"
-            android:textSize="30sp"
+            android:textSize="32sp"
             android:textStyle="bold"/>
 
     </LinearLayout>
@@ -138,8 +138,8 @@
     android:id="@+id/imgQris"
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:layout_weight="0.8"
-    android:maxHeight="350dp"
+    android:layout_weight="1.2"
+    android:maxHeight="500dp"
     android:adjustViewBounds="true"
     android:scaleType="fitCenter"
     android:src="@android:drawable/ic_menu_gallery"/>
