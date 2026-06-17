@@ -120,6 +120,39 @@ object PrefHelper {
             ) ?: "UNKNOWN"
     }
 
+    fun saveSaldo(
+    context: Context,
+    saldo: Long
+) {
+
+    context
+        .getSharedPreferences(
+            PREF_NAME,
+            Context.MODE_PRIVATE
+        )
+        .edit()
+        .putLong(
+            "saldo_qris",
+            saldo
+        )
+        .apply()
+}
+
+fun getSaldo(
+    context: Context
+): Long {
+
+    return context
+        .getSharedPreferences(
+            PREF_NAME,
+            Context.MODE_PRIVATE
+        )
+        .getLong(
+            "saldo_qris",
+            0
+        )
+}
+
     fun clearRegistration(
         context: Context
     ) {

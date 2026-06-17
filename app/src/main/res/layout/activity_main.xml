@@ -152,49 +152,46 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="12dp"
-    android:background="@drawable/bg_qris"
     android:orientation="vertical"
-    android:padding="18dp">
+    android:paddingHorizontal="4dp">
 
     <TextView
-        android:id="@+id/txtMerchant"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="🧑 Merchant : ARIF PERMANA"
-        android:textColor="@color/text_primary"
-        android:textSize="16sp"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/divider"/>
+    android:id="@+id/txtMerchant"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="14dp"
+    android:text="Merchant : -"
+    android:textColor="@color/text_primary"
+    android:textStyle="bold"
+    android:textSize="14sp"/>
 
     <TextView
-        android:id="@+id/txtProvider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="🏦 Provider : DANA"
-        android:textColor="@color/text_primary"
-        android:textSize="16sp"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/divider"/>
+    android:id="@+id/txtProvider"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:text="Provider : -"
+    android:textColor="@color/text_primary"
+    android:textSize="14sp"/>
 
     <TextView
-        android:id="@+id/txtStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="✅ Status : Aktif"
-        android:textColor="@color/status_connected"
-        android:textStyle="bold"
-        android:textSize="16sp"/>
+    android:id="@+id/txtSaldo"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:text="Saldo QRIS : Rp 0"
+    android:textColor="@color/text_primary"
+    android:textSize="14sp"/>
+
+    <TextView
+    android:id="@+id/txtStatus"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:text="Status : -"
+    android:textColor="@color/status_connected"
+    android:textStyle="bold"
+    android:textSize="14sp"/>
 </LinearLayout>
 
     <View
@@ -228,3 +225,4 @@
 
 </LinearLayout>
 </LinearLayout>
+

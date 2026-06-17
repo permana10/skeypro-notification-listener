@@ -122,6 +122,17 @@ private fun registerQris(deviceIdInput: String){
                                 "provider"
                             )
 
+                        val totalAmount =
+                            json.optLong(
+                            "total_amount",
+                             0
+                        )
+
+                        PrefHelper.saveSaldo(
+                            this@MainActivity,
+                            totalAmount
+                        )
+
                         val status =
                             json.optString(
                                 "status"
@@ -234,6 +245,11 @@ PrefHelper.saveBlockedWords(
                             "Provider : $provider"
 
                         findViewById<TextView>(
+                            R.id.txtSaldo
+                        ).text =
+                            "Saldo QRIS : Rp $totalAmount"
+
+                        findViewById<TextView>(
                             R.id.txtStatus
                         ).text =
                             "Status : $status"
@@ -332,6 +348,8 @@ private fun checkServerInfo(){
             findViewById<TextView>(R.id.txtMerchant)
         val txtProvider = 
             findViewById<TextView>(R.id.txtProvider)
+        val txtSaldo =
+            findViewById<TextView>(R.id.txtSaldo)
         val txtStatus =
             findViewById<TextView>(R.id.txtStatus)
         val txtConnection =
@@ -533,6 +551,9 @@ btnDaftar.setOnClickListener {
             val provider =
                 PrefHelper.getProvider(this)
 
+            val totalAmount =
+                PrefHelper.getSaldo(this)
+
             val status =
                 PrefHelper.getStatus(this)
 
@@ -545,6 +566,9 @@ btnDaftar.setOnClickListener {
             txtProvider.text =
                 "Provider : $provider"
 
+            txtSaldo.text =
+                "Saldo QRIS : Rp $totalAmount"
+            
             val txtStatusView =
                 findViewById<TextView>(
                 R.id.txtStatus
@@ -568,7 +592,7 @@ btnDaftar.setOnClickListener {
              
              txtConnectionView.setTextColor(
                  getColor(R.color.primary_green)
-             )
+             )           
 
              findViewById<android.widget.EditText>(
     R.id.edtDeviceId
