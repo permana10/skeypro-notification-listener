@@ -600,18 +600,15 @@ btnDaftar.setOnClickListener {
         when(it.title.toString()) {
 
             "Notifikasi",
-                "Notifikasi ●" -> {
-    val deviceId =
-        PrefHelper.getDeviceId(this)
+"Notifikasi ●" -> {
 
     startActivity(
         Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(
-                "https://skeypro.id/notifikasi/$deviceId"
-            )
+            this,
+            NotificationActivity::class.java
         )
     )
+
     true
 }
 
