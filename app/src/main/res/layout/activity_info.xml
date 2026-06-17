@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="0dp"
             android:orientation="horizontal">
 
             <TextView

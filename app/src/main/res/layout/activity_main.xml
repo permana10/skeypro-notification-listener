@@ -125,8 +125,8 @@
     android:textColor="@color/white"
     android:textStyle="bold"/>
 
-    <!-- Preview QRIS + Informasi Merchant -->
-    <LinearLayout
+<!-- Preview QRIS + Informasi Merchant -->
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
@@ -135,12 +135,11 @@
     android:padding="12dp">
 
     <ImageView
-    android:id="@+id/imgQris"
-    android:layout_width="match_parent"
-    android:layout_height="380dp"
-    android:adjustViewBounds="true"
-    android:scaleType="fitCenter"
-    android:src="@android:drawable/ic_menu_gallery"/>
+        android:id="@+id/imgQris"
+        android:layout_width="match_parent"
+        android:layout_height="480dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"/>
 
     <ProgressBar
         android:id="@+id/progressRegister"
@@ -148,41 +147,55 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:visibility="gone"/>
+</LinearLayout>
 
-    <View
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:layout_marginTop="0dp"
-    android:layout_marginBottom="2dp"
-    android:background="@color/divider"/>
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    android:background="@drawable/bg_qris"
+    android:orientation="vertical"
+    android:padding="18dp">
 
     <TextView
         android:id="@+id/txtMerchant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Merchant : -"  
-        android:textColor="@color/text_primary"     
-        android:textSize="14sp"/>
+        android:text="🧑 Merchant : ARIF PERMANA"
+        android:textColor="@color/text_primary"
+        android:textSize="16sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/divider"/>
 
     <TextView
         android:id="@+id/txtProvider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:text="Provider : -"
+        android:text="🏦 Provider : DANA"
         android:textColor="@color/text_primary"
-        android:textSize="14sp"/>
+        android:textSize="16sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/divider"/>
 
     <TextView
         android:id="@+id/txtStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:text="Status : Belum Aktif"
+        android:text="✅ Status : Aktif"
         android:textColor="@color/status_connected"
         android:textStyle="bold"
-        android:textSize="14sp"/>
-    </LinearLayout>
+        android:textSize="16sp"/>
+</LinearLayout>
 
     <View
     android:layout_width="match_parent"
