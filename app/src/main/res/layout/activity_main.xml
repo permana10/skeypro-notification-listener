@@ -132,12 +132,12 @@
     android:layout_marginTop="10dp"
     android:orientation="vertical"
     android:background="@drawable/bg_qris"
-    android:padding="12dp">
+    android:padding="4dp">
 
     <ImageView
         android:id="@+id/imgQris"
         android:layout_width="match_parent"
-        android:layout_height="480dp"
+        android:layout_height="420dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"/>
 
@@ -156,42 +156,54 @@
     android:paddingHorizontal="4dp">
 
     <TextView
-    android:id="@+id/txtMerchant"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="14dp"
-    android:text="Merchant : -"
-    android:textColor="@color/text_primary"
-    android:textStyle="bold"
-    android:textSize="14sp"/>
+        android:id="@+id/txtMerchant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Merchant : -"
+        android:textColor="@color/text_primary"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
 
     <TextView
-    android:id="@+id/txtProvider"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="2dp"
-    android:text="Provider : -"
-    android:textColor="@color/text_primary"
-    android:textSize="14sp"/>
+        android:id="@+id/txtProvider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Provider : -"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp"/>
 
     <TextView
-    android:id="@+id/txtSaldo"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="2dp"
-    android:text="Saldo QRIS : Rp 0"
-    android:textColor="@color/text_primary"
-    android:textSize="14sp"/>
+        android:id="@+id/txtStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Status : -"
+        android:textColor="@color/status_connected"
+        android:textStyle="bold"
+        android:textSize="14sp"/>
 
     <TextView
-    android:id="@+id/txtStatus"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="2dp"
-    android:text="Status : -"
-    android:textColor="@color/status_connected"
-    android:textStyle="bold"
-    android:textSize="14sp"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="SALDO QRIS"
+        android:gravity="center"
+        android:textColor="@color/text_secondary"
+        android:textStyle="bold"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/txtSaldo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Rp 0"
+        android:textColor="@color/primary_green"
+        android:textStyle="bold"
+        android:textSize="24sp"/>
+
 </LinearLayout>
 
     <View
