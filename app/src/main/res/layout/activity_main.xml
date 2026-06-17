@@ -147,8 +147,8 @@
     android:layout_marginTop="10dp"
     android:orientation="vertical"
     android:background="@drawable/bg_qris"
-    android:paddingHorizontal="5dp"
-    android:paddingVertical="5dp">
+    android:paddingHorizontal="3dp"
+    android:paddingVertical="3dp">
 
     <ImageView
     android:id="@+id/imgQris"

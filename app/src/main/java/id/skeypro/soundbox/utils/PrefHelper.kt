@@ -153,6 +153,39 @@ fun getSaldo(
         )
 }
 
+fun saveUnreadNotif(
+    context: Context,
+    value: Boolean
+) {
+
+    context
+        .getSharedPreferences(
+            PREF_NAME,
+            Context.MODE_PRIVATE
+        )
+        .edit()
+        .putBoolean(
+            "unread_notif",
+            value
+        )
+        .apply()
+}
+
+fun getUnreadNotif(
+    context: Context
+): Boolean {
+
+    return context
+        .getSharedPreferences(
+            PREF_NAME,
+            Context.MODE_PRIVATE
+        )
+        .getBoolean(
+            "unread_notif",
+            false
+        )
+}
+
     fun clearRegistration(
         context: Context
     ) {

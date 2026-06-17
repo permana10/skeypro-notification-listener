@@ -382,7 +382,14 @@ private fun connectAppWebSocket(
 
     unreadNotif = true
 
+    PrefHelper.saveUnreadNotif(
+        this@MainActivity,
+        true
+    )
+
     runOnUiThread {
+
+        updateBadge()
 
         android.widget.Toast
             .makeText(
@@ -499,6 +506,13 @@ private fun checkServerInfo(){
             .show()
     }
 
+    unreadNotif =
+    PrefHelper.getUnreadNotif(
+        this
+    )
+
+updateBadge()
+
     checkServerInfo()
     android.util.Log.d("SKEYBOX", "CHECK SERVER INFO")
 
@@ -601,6 +615,15 @@ btnDaftar.setOnClickListener {
 
             "Notifikasi",
 "Notifikasi ●" -> {
+
+    unreadNotif = false
+
+    PrefHelper.saveUnreadNotif(
+        this,
+        false
+    )
+
+    updateBadge()
 
     startActivity(
         Intent(
