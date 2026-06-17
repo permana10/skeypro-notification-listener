@@ -439,6 +439,23 @@ private fun connectAppWebSocket(
     )
 }
 
+private fun updateBadge() {
+
+    val badge =
+        findViewById<View>(
+            R.id.viewBadge
+        )
+
+    badge.visibility =
+        if(
+            unreadNotif ||
+            updateAvailable
+        )
+            View.VISIBLE
+        else
+            View.GONE
+}
+
 private fun checkServerInfo(){
     thread {
         try{
@@ -583,17 +600,18 @@ btnDaftar.setOnClickListener {
         when(it.title.toString()) {
 
             "Notifikasi",
-"Notifikasi ●" -> {
+                "Notifikasi ●" -> {
+    val deviceId =
+        PrefHelper.getDeviceId(this)
 
     startActivity(
         Intent(
             Intent.ACTION_VIEW,
             Uri.parse(
-                "https://skeypro.id/notifikasi"
+                "https://skeypro.id/notifikasi/$deviceId"
             )
         )
     )
-
     true
 }
 
@@ -659,12 +677,13 @@ btnDaftar.setOnClickListener {
 }
 
             "Hapus Akun" -> {
-
+                val deviceId =
+                    PrefHelper.getDeviceId(this)
                 startActivity(
                     Intent(
                         Intent.ACTION_VIEW,
                         Uri.parse(
-                            "https://skeypro.id/hapus-akun"
+                    "https://skeypro.id/hapus-akun/$deviceId"
                         )
                     )
                 )
