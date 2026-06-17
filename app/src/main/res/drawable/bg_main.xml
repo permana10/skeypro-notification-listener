@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Background putih -->
+    <item>
+        <shape>
+            <solid android:color="#FFFFFF"/>
+        </shape>
+    </item>
+
+    <!-- Hijau kiri atas -->
+    <item
+        android:left="-120dp"
+        android:top="120dp">
+
+        <shape android:shape="oval">
+            <size
+                android:width="300dp"
+                android:height="300dp"/>
+
+            <solid android:color="#E8F8EA"/>
+        </shape>
+
+    </item>
+
+    <!-- Hijau kanan bawah -->
+    <item
+        android:right="-120dp"
+        android:bottom="-120dp">
+
+        <shape android:shape="oval">
+            <size
+                android:width="350dp"
+                android:height="350dp"/>
+
+            <solid android:color="#E2F7E5"/>
+        </shape>
+
+    </item>
+
+</layer-list>
