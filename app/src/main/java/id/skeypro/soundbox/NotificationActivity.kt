@@ -3,6 +3,7 @@ package id.skeypro.soundbox
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import id.skeypro.soundbox.utils.PrefHelper
 import id.skeypro.soundbox.network.RegisterClient
 import kotlin.concurrent.thread
 
