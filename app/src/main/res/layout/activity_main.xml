@@ -139,7 +139,7 @@
     android:id="@+id/imgQris"
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:layout_weight="1.2"
+    android:layout_weight="0.8"
     android:maxHeight="500dp"
     android:adjustViewBounds="true"
     android:scaleType="fitCenter"
@@ -155,8 +155,8 @@
     <View
     android:layout_width="match_parent"
     android:layout_height="1dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="4dp"
     android:background="@color/divider"/>
 
     <TextView
@@ -209,7 +209,7 @@
         android:text="SKEYPRO.ID"
         android:textColor="@color/primary_green"
         android:textStyle="bold"
-        android:textSize="11sp"/>
+        android:textSize="10sp"/>
 
 </LinearLayout>
 </LinearLayout>
