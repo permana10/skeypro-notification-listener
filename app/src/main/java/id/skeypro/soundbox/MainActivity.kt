@@ -567,7 +567,7 @@ btnDaftar.setOnClickListener {
                 "Provider : $provider"
 
             txtSaldo.text =
-                "Saldo QRIS : Rp $totalAmount"
+                "Rp %,d".format(totalAmount)
             
             val txtStatusView =
                 findViewById<TextView>(
