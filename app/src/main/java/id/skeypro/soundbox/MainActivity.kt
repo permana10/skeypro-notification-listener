@@ -18,9 +18,16 @@ import org.json.JSONObject
 import id.skeypro.soundbox.network.RegisterClient
 import android.widget.ImageButton
 import android.widget.PopupMenu
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import okhttp3.WebSocket
+import okhttp3.WebSocketListener
+import org.json.JSONObject
+import id.skeypro.soundbox.config.Config
 
 class MainActivity : AppCompatActivity() {
-
+private var appWebSocket: WebSocket? = null
 private var selectedUri: Uri? = null
 private var replaceQrisMode = false
 private var qrisLocked = false
@@ -218,6 +225,8 @@ PrefHelper.saveBlockedWords(
                             filter                          
                         )
 
+                        connectAppWebSocket(deviceId)
+
                         val qrisFile =
                             File(
                                 filesDir,
@@ -294,6 +303,141 @@ PrefHelper.saveBlockedWords(
             }
         }
     }
+}
+
+private fun connectAppWebSocket(
+    deviceId: String
+){
+
+    val client = OkHttpClient()
+
+    val request = Request.Builder()
+        .url(
+            "${Config.WS_APP_URL}/$deviceId"
+        )
+        .build()
+
+    appWebSocket = client.newWebSocket(
+        request,
+        object : WebSocketListener(){
+
+            override fun onOpen(
+                webSocket: WebSocket,
+                response: Response
+            ){
+
+                runOnUiThread {
+
+                    findViewById<TextView>(
+                        R.id.txtConnection
+                    ).text =
+                        "● Connected"
+                }
+            }
+
+            override fun onMessage(
+                webSocket: WebSocket,
+                text: String
+            ){
+
+                try{
+
+                    val json =
+                        JSONObject(text)
+
+                    when(
+                        json.optString("type")
+                    ){
+
+                        "saldo_update" -> {
+
+                            val totalAmount =
+                                json.optLong(
+                                    "total_amount",
+                                    0
+                                )
+
+                            PrefHelper.saveSaldo(
+                                this@MainActivity,
+                                totalAmount
+                            )
+
+                            runOnUiThread {
+
+                                findViewById<TextView>(
+                                    R.id.txtSaldo
+                                ).text =
+                                    "Rp %,d".format(
+                                        totalAmount
+                                    )
+                            }
+                        }
+
+                        "notification" -> {
+
+    val title =
+        json.optString("title")
+
+    val message =
+        json.optString("message")
+
+    unreadNotif = true
+
+    runOnUiThread {
+
+        android.widget.Toast
+            .makeText(
+                this@MainActivity,
+                "$title\n$message",
+                android.widget.Toast.LENGTH_LONG
+            )
+            .show()
+    }
+}
+
+                        "update_apk" -> {
+
+                            updateAvailable = true
+
+                            latestVersion =
+                                json.optString(
+                                    "version"
+                                )
+
+                            latestApkUrl =
+                                json.optString(
+                                    "url"
+                                )
+
+                            runOnUiThread {
+
+                                invalidateOptionsMenu()
+                            }
+                        }
+                    }
+
+                }catch(e: Exception){
+
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onClosed(
+                webSocket: WebSocket,
+                code: Int,
+                reason: String
+            ){
+
+                runOnUiThread {
+
+                    findViewById<TextView>(
+                        R.id.txtConnection
+                    ).text =
+                        "● Disconnected"
+                }
+            }
+        }
+    )
 }
 
 private fun checkServerInfo(){
@@ -544,6 +688,10 @@ btnDaftar.setOnClickListener {
 
             val deviceId =
                 PrefHelper.getDeviceId(this)
+
+            connectAppWebSocket(
+                deviceId
+            )
 
             val merchant =
                 PrefHelper.getMerchant(this)
