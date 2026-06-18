@@ -278,6 +278,14 @@ PrefHelper.saveBlockedWords(
                         ).setTextColor(
                             getColor(R.color.primary_green))
 
+findViewById<LinearLayout>(
+    R.id.layoutWelcome
+).visibility = View.GONE
+
+findViewById<LinearLayout>(
+    R.id.layoutMerchantInfo
+).visibility = View.VISIBLE
+
                         findViewById<android.widget.EditText>(
                             R.id.edtDeviceId
                         ).visibility = View.GONE
@@ -739,7 +747,7 @@ btnDaftar.setOnClickListener {
     )
         if (registered) {
 
-        layoutMerchantInfo.visibility = View.GONE       
+        layoutMerchantInfo.visibility = View.VISIBLE       
 
             val deviceId =
                 PrefHelper.getDeviceId(this)
