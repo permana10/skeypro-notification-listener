@@ -182,7 +182,7 @@
         android:textAlignment="center"
         android:textColor="@color/text_primary"
         android:textSize="15sp"
-        android:text="@string/welcome_text"
+        android:text="@string/welcome_text"/>
 
 </LinearLayout>
 
