@@ -255,7 +255,7 @@ PrefHelper.saveBlockedWords(
                         findViewById<TextView>(
                             R.id.txtSaldo
                         ).text =
-                            "Saldo QRIS : Rp $totalAmount"
+                            "Rp %,d".format(totalAmount)
 
                         findViewById<TextView>(
                             R.id.txtStatus
@@ -263,9 +263,19 @@ PrefHelper.saveBlockedWords(
                             "Status : $status"
 
                         findViewById<TextView>(
+                            R.id.txtStatus
+                        ).setTextColor(
+                            getColor(R.color.primary_green))
+
+                        findViewById<TextView>(
                             R.id.txtConnection
                         ).text =
                             "● Connected"
+
+                        findViewById<TextView>(
+                            R.id.txtConnection
+                        ).setTextColor(
+                            getColor(R.color.primary_green))
 
                         findViewById<android.widget.EditText>(
                             R.id.edtDeviceId
@@ -722,7 +732,13 @@ btnDaftar.setOnClickListener {
         val registered =
     PrefHelper.isRegistered(this)
     qrisLocked = registered
+        val layoutMerchantInfo =
+    findViewById<LinearLayout>(
+        R.id.layoutMerchantInfo
+    )
         if (registered) {
+
+        layoutMerchantInfo.visibility = View.GONE       
 
             val deviceId =
                 PrefHelper.getDeviceId(this)
@@ -780,6 +796,9 @@ btnDaftar.setOnClickListener {
                  getColor(R.color.primary_green)
              )           
 
+             findViewById<LinearLayout>(
+    R.id.layoutWelcome
+             ).visibility = View.GONE
              findViewById<android.widget.EditText>(
     R.id.edtDeviceId
              ).visibility = View.GONE
@@ -812,6 +831,7 @@ if (qrisFile.exists()) {
     View.VISIBLE
 
         } else {
+            layoutMerchantInfo.visibility = View.GONE
 
             txtDeviceId.text =
                 "ID : Belum Terdaftar"
@@ -830,6 +850,9 @@ if (qrisFile.exists()) {
                 getColor(R.color.text_secondary)
             )
 
+            findViewById<LinearLayout>(
+    R.id.layoutWelcome
+            ).visibility = View.VISIBLE
             findViewById<android.widget.EditText>(
     R.id.edtDeviceId
             ).visibility = View.VISIBLE

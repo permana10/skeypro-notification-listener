@@ -168,6 +168,34 @@
 </LinearLayout>
 
 <LinearLayout
+    android:id="@+id/layoutWelcome"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="@color/text_primary"
+        android:textSize="15sp"
+        android:text="SKEYBOX QRIS UNIVERSAL
+
+Menerima notifikasi pembayaran QRIS secara real-time langsung ke perangkat Soundbox Anda.
+
+● Mendukung berbagai aplikasi pembayaran QRIS
+● Monitoring saldo otomatis
+● Cocok untuk UMKM, toko, warung, dan usaha rumahan
+
+Masukkan Device ID dan upload QRIS untuk mulai menggunakan SKEYBOX." />
+
+</LinearLayout>
+
+<LinearLayout
+    android:id="@+id/layoutMerchantInfo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
