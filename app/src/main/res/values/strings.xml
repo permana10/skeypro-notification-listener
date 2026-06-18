@@ -1,7 +1,3 @@
 <resources>
-
     <string name="app_name">SKEYBOX</string>
-
-    <string name="welcome_text">SKEYBOX QRIS UNIVERSAL&#10;&#10;Menerima notifikasi pembayaran QRIS secara real-time langsung ke perangkat Soundbox Anda.&#10;&#10;• Mendukung berbagai aplikasi pembayaran QRIS&#10;• Monitoring saldo otomatis&#10;• Cocok untuk UMKM, toko, warung, dan usaha rumahan&#10;&#10;Masukkan Device ID dan upload QRIS untuk mulai menggunakan SKEYBOX.</string>
-
 </resources>

@@ -37,15 +37,6 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="0dp"
-            android:text="Update Notifikasi SoundBox"
-            android:textColor="@color/text_secondary"
-            android:textSize="15sp"/>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

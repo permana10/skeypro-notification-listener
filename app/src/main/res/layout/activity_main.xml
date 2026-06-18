@@ -178,12 +178,45 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textAlignment="center"
-        android:textColor="@color/text_primary"
+        android:text="SKEYBOX QRIS UNIVERSAL"
+        android:textStyle="bold"
         android:textSize="15sp"
-        android:inputType="textMultiLine"
-        android:text="@string/welcome_text"/>
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Menerima notifikasi pembayaran QRIS secara real-time langsung ke perangkat Soundbox Anda."
+        android:textSize="14sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="• Mendukung berbagai aplikasi pembayaran QRIS"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="• Monitoring saldo otomatis"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="• Cocok untuk UMKM, toko, warung, dan usaha rumahan"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Masukkan Device ID dan upload QRIS untuk mulai menggunakan SKEYBOX."
+        android:textSize="14sp"
+        android:gravity="center"/>
 
 </LinearLayout>
 
