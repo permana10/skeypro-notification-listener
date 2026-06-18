@@ -7,6 +7,7 @@ import android.view.View
 import java.io.File
 import android.widget.TextView
 import android.widget.ProgressBar
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import id.skeypro.soundbox.utils.PermissionHelper
 import id.skeypro.soundbox.utils.PrefHelper
