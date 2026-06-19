@@ -21,7 +21,7 @@ import id.skeypro.soundbox.utils.RegisterHelper
 import id.skeypro.soundbox.utils.TesNotificationHelper
 import id.skeypro.soundbox.websocket.AppWebSocketHelper
 import id.skeypro.soundbox.network.TestNotificationClient
-import id.skeypro.soundbox.network.RegistrasiClient
+import id.skeypro.soundbox.network.RegisterClient
 
 import java.io.File
 import org.json.JSONObject
@@ -600,8 +600,7 @@ if (registered) {
     thread {
 
         val response =
-            RegistrasiClient
-                .getProviders()
+            RegisterClient.getProviders()
 
         if(response == null){
             return@thread
