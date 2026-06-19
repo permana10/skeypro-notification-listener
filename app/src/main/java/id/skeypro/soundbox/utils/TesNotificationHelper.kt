@@ -6,7 +6,8 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import android.util.TypedValue
+import android.text.InputFilter
+import android.text.InputType
 
 object TesNotificationHelper {
 
@@ -36,14 +37,16 @@ val layout =
 
 val edtDeviceId =
     EditText(activity).apply {
-
         hint =
-            "SBX-FE8CE0"
+            "Contoh : SBX-D77A4FF9"
 
-        setTextSize(
-            TypedValue.COMPLEX_UNIT_SP,
-            18f
-        )
+        inputType =
+            InputType.TYPE_CLASS_TEXT
+
+        filters =
+            arrayOf(
+                InputFilter.AllCaps()
+            )
     }
 
 val spinner =  

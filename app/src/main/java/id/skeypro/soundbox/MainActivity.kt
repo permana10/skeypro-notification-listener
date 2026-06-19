@@ -592,13 +592,12 @@ if (registered) {
 }
 
     popup.setOnMenuItemClickListener {
-
         when(it.title.toString()) {
+
 
     "Tes Notifikasi" -> {
 
     thread {
-
         val response =
             RegisterClient.getProviders()
 
@@ -649,11 +648,10 @@ if (registered) {
                 ).show()
             }
         }
-    }
-}
+     }
+  }
 
-}
-
+ }
 true
 }
 
