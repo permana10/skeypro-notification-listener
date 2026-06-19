@@ -266,12 +266,12 @@ PrefHelper.saveProviders(
     findViewById<TextView>(
         R.id.txtMerchant
     ).text =
-        "Merchant : $merchant"
+        merchant
 
     findViewById<TextView>(
         R.id.txtProvider
     ).text =
-        "Provider : $provider"
+        "Provider $provider"
 
     findViewById<TextView>(
         R.id.txtSaldo
@@ -283,7 +283,7 @@ PrefHelper.saveProviders(
     findViewById<TextView>(
         R.id.txtStatus
     ).text =
-        "Status : $status"
+        "● AKTIF"
 
     findViewById<TextView>(
         R.id.txtStatus
@@ -768,10 +768,10 @@ if (registered) {
                 "ID : $deviceId"         
 
             txtMerchant.text =
-                "Merchant : $merchant"
+                merchant
 
             txtProvider.text =
-                "Provider : $provider"
+                "Provider $provider"
 
             txtSaldo.text =
                 "Rp %,d".format(totalAmount)
@@ -782,7 +782,7 @@ if (registered) {
             )
 
             txtStatusView.text =
-                "Status : $status"
+                "● AKTIF"
 
             txtStatusView.setTextColor(
                 getColor(R.color.primary_green)

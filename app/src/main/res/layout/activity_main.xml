@@ -154,7 +154,7 @@
     android:id="@+id/imgQris"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:maxHeight="480dp"
+    android:maxHeight="420dp"
     android:adjustViewBounds="true"
     android:scaleType="centerInside"/>
 
@@ -235,7 +235,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Merchant : -"
+        android:gravity="center"
+        android:text="-"
         android:textColor="@color/text_primary"
         android:textStyle="bold"
         android:textSize="15sp"/>
@@ -245,7 +246,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        android:text="Provider : -"
+        android:gravity="center"
+        android:text="Provider"
         android:textColor="@color/text_primary"
         android:textSize="14sp"/>
 
@@ -254,7 +256,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        android:text="Status : -"
+        android:gravity="center"
+        android:text="-"
         android:textColor="@color/status_connected"
         android:textStyle="bold"
         android:textSize="14sp"/>
