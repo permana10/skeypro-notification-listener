@@ -12,7 +12,7 @@ object Config {
         "wss://skeypro.id/ws/app"
 
     const val APP_VERSION =
-        "1.0.0"
+        "1.1.0"
 
     const val APP_NAME =
         "SKEYBOX"
