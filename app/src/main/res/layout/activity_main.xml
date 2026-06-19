@@ -149,22 +149,61 @@
     android:background="@drawable/bg_qris"
     android:paddingHorizontal="10dp"
     android:paddingTop="10dp"
-    android:paddingBottom="40dp">
+    android:paddingBottom="80dp">
+
+   <FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <ImageView
-    android:id="@+id/imgQris"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:maxHeight="460dp"
-    android:adjustViewBounds="true"
-    android:scaleType="centerInside"/>
+        android:id="@+id/imgQris"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxHeight="460dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"/>
 
     <ProgressBar
         android:id="@+id/progressRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:visibility="gone"/>
+
+   </FrameLayout>
+
+    <TextView
+        android:id="@+id/txtMerchant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="0dp"
+        android:layout_gravity="center_horizontal"
+        android:text="-"
+        android:textColor="@color/text_primary"
+        android:textStyle="bold"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/txtProvider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Provider"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/txtStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_gravity="center_horizontal"
+        android:text="-"
+        android:textColor="@color/status_connected"
+        android:textStyle="bold"
+        android:textSize="13sp"/>
 
 </LinearLayout>
 
@@ -225,44 +264,11 @@
 </LinearLayout>
 
 <LinearLayout
-    android:id="@+id/layoutMerchantInfo"
+    android:id="@+id/layoutMerchantInfo" 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingHorizontal="10dp">
-
-    <TextView
-        android:id="@+id/txtMerchant"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="0dp"
-        android:layout_gravity="center_horizontal"
-        android:text="-"
-        android:textColor="@color/text_primary"
-        android:textStyle="bold"
-        android:textSize="14sp"/>
-
-    <TextView
-        android:id="@+id/txtProvider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:layout_gravity="center_horizontal"
-        android:text="Provider"
-        android:textColor="@color/text_primary"
-        android:textSize="12sp"/>
-
-    <TextView
-        android:id="@+id/txtStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:layout_gravity="center_horizontal"
-        android:text="-"
-        android:textColor="@color/status_connected"
-        android:textStyle="bold"
-        android:textSize="12sp"/>
 
     <TextView
         android:layout_width="match_parent"
