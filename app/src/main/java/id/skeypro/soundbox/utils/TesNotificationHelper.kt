@@ -6,6 +6,7 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import android.util.TypedValue
 
 object TesNotificationHelper {
 
@@ -33,25 +34,38 @@ val layout =
         )  
     }  
 
-val edtDeviceId =  
-    EditText(activity).apply {  
+val edtDeviceId =
+    EditText(activity).apply {
 
-        hint =  
-            "SBX-FE8CE0"  
-    }  
+        hint =
+            "SBX-FE8CE0"
+
+        setTextSize(
+            TypedValue.COMPLEX_UNIT_SP,
+            18f
+        )
+    }
 
 val spinner =  
     Spinner(activity)  
+    spinner.minimumHeight = 120
 
 val providerNames =  
     providers.keys.toList()  
 
-spinner.adapter =  
-    ArrayAdapter(  
-        activity,  
-        android.R.layout.simple_spinner_dropdown_item,  
-        providerNames  
-    )  
+val adapter =
+    ArrayAdapter(
+        activity,
+        android.R.layout.simple_spinner_item,
+        providerNames
+    )
+
+adapter.setDropDownViewResource(
+    android.R.layout.simple_spinner_dropdown_item
+)
+
+spinner.adapter =
+    adapter
 
 layout.addView(  
     edtDeviceId  

@@ -306,4 +306,63 @@ fun getUnreadNotif(
                 emptySet()
             ) ?: emptySet()
     }
+
+fun saveProviders(
+    context: Context,
+    providers: Map<String, String>
+) {
+
+    val prefs =
+        context.getSharedPreferences(
+            PREF_NAME,
+            Context.MODE_PRIVATE
+        )
+
+    val json =
+        org.json.JSONObject()
+
+    providers.forEach {
+        json.put(
+            it.key,
+            it.value
+        )
+    }
+
+    prefs.edit()
+        .putString(
+            "providers",
+            json.toString()
+        )
+        .apply()
+}
+
+fun getProviders(
+    context: Context
+): Map<String, String> {
+
+    val data =
+        context.getSharedPreferences(
+            PREF_NAME,
+            Context.MODE_PRIVATE
+        )
+        .getString(
+            "providers",
+            "{}"
+        ) ?: "{}"
+
+    val result =
+        mutableMapOf<String, String>()
+
+    val json =
+        org.json.JSONObject(data)
+
+    json.keys().forEach { key ->
+
+        result[key] =
+            json.getString(key)
+    }
+
+    return result
+}
+
 }

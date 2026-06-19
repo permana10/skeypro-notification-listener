@@ -155,6 +155,30 @@ fun handleRegisterSuccess(
         packages
     )
 
+    val providers =
+    mutableMapOf<String, String>()
+
+val jsonProviders =
+    json.optJSONObject(
+        "providers"
+    )
+
+if(jsonProviders != null){
+
+    jsonProviders.keys().forEach { key ->
+
+        providers[key] =
+            jsonProviders.getString(
+                key
+            )
+    }
+}
+
+PrefHelper.saveProviders(
+    this,
+    providers
+)
+
     val keywords =
         mutableSetOf<String>()
 
@@ -572,43 +596,63 @@ if (registered) {
 
     "Tes Notifikasi" -> {
 
+    thread {
+
+    val response =
+        RegistrasiClient
+            .getProviders()
+
+    if(response == null){
+        return@thread
+    }
+
+    val json =
+        JSONObject(response)
+
     val providers =
-        mapOf(
-            "DANA" to "id.dana"
-        )
+        mutableMapOf<String, String>()
 
-    TesNotificationHelper.show(
-        this,
-        providers
-    ){ deviceId,
-       packageName,
-       providerName ->
+    json.keys().forEach { key ->
 
-        thread {
+        providers[key] =
+            json.getJSONArray(key)
+                .getString(0)
+    }
 
-            val success =
-                TestNotificationClient.send(
-                    deviceId,
-                    packageName,
-                    providerName
-                )
+    runOnUiThread {
 
-            runOnUiThread {
+        TesNotificationHelper.show(
+            this,
+            providers
+        ){ deviceId,
+           packageName,
+           providerName ->
 
-                Toast.makeText(
-                    this,
-                    if(success)
-                        "Tes notifikasi berhasil dikirim"
-                    else
-                        "Gagal mengirim tes notifikasi",
-                    Toast.LENGTH_SHORT
-                ).show()
+            thread {
+
+                val success =
+                    TestNotificationClient.send(
+                        deviceId,
+                        packageName,
+                        providerName
+                    )
+
+                runOnUiThread {
+
+                    Toast.makeText(
+                        this,
+                        if(success)
+                            "Tes notifikasi berhasil dikirim"
+                        else
+                            "Gagal mengirim tes notifikasi",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
-
-    true
 }
+
 
             "Notifikasi",
 "Notifikasi ●" -> {
