@@ -85,6 +85,31 @@ object RegisterClient {
     }
 }
 
+    fun getProviders(): String? {
+
+    return try {
+
+        val request =
+            Request.Builder()
+                .url(
+                    "https://skeypro.id/api/providers"
+                )
+                .get()
+                .build()
+
+        client.newCall(request)
+            .execute()
+            .body
+            ?.string()
+
+    } catch (e: Exception) {
+
+        e.printStackTrace()
+
+        null
+    }
+}
+
     fun getInformasi(): String? {
 
         return try {

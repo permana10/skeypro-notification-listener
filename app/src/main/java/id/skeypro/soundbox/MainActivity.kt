@@ -4,27 +4,29 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import java.io.File
 import android.widget.TextView
 import android.widget.ProgressBar
 import android.widget.LinearLayout
-import androidx.appcompat.app.AppCompatActivity
-import id.skeypro.soundbox.utils.PermissionHelper
-import id.skeypro.soundbox.utils.PrefHelper
+import android.widget.Toast
 import android.net.Uri
-import android.widget.ImageView
-import androidx.activity.result.contract.ActivityResultContracts
-import kotlin.concurrent.thread
-import org.json.JSONObject
-import id.skeypro.soundbox.network.RegisterClient
 import android.widget.ImageButton
 import android.widget.PopupMenu
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+
+import id.skeypro.soundbox.utils.PermissionHelper
+import id.skeypro.soundbox.utils.PrefHelper
+import id.skeypro.soundbox.utils.RegisterHelper
+import id.skeypro.soundbox.utils.TesNotificationHelper
+import id.skeypro.soundbox.websocket.AppWebSocketHelper
+import id.skeypro.soundbox.network.TestNotificationClient
+
+import java.io.File
+import org.json.JSONObject
+import kotlin.concurrent.thread
 import okhttp3.WebSocket
-import okhttp3.WebSocketListener
-import id.skeypro.soundbox.config.Config
+
 
 class MainActivity : AppCompatActivity() {
 private var appWebSocket: WebSocket? = null
@@ -56,412 +58,265 @@ private val pickImage =
    }
  }
 
-private fun registerQris(deviceIdInput: String){
-    if(selectedUri == null){
-        return
-    }
+private fun registerQris(
+    deviceIdInput: String
+){
+    RegisterHelper.register(
+        this,
+        selectedUri,
+        deviceIdInput
+    )
+}
+
+fun handleRegisterSuccess(
+    response: String?,
+    tempFile: File
+) {
 
     findViewById<ProgressBar>(
         R.id.progressRegister
-    ).visibility = View.VISIBLE
+    ).visibility = View.GONE
 
-    thread {
-        try {
-            val input =
-                contentResolver
-                    .openInputStream(
-                        selectedUri!!
-                    )
+    if(response == null){
+        return
+    }
 
-            val tempFile =
-                File(
-                    cacheDir,
-                    "qris.jpg"
-                )
+    val json =
+        JSONObject(response)
 
-            input?.use { inp ->
-
-                tempFile.outputStream()
-                    .use { out ->
-
-                        inp.copyTo(out)
-
-                    }
-            }
-
-            val response =
-                RegisterClient
-                    .uploadQris(
-                        tempFile,
-                        deviceIdInput
-                    )
-
-            runOnUiThread {
-
-                findViewById<ProgressBar>(
-                    R.id.progressRegister
-                ).visibility = View.GONE
-
-                if(response != null){
-
-                    val json =
-                        JSONObject(response)
-
-                    if(
-                        json.optBoolean(
-                            "success",
-                            false
-                        )
-                    ){
-
-                        val deviceId =
-                            json.optString(
-                                "device_id"
-                            )
-
-                        val merchant =
-                            json.optString(
-                                "merchant"
-                            )
-
-                        val provider =
-                            json.optString(
-                                "provider"
-                            )
-
-                        val totalAmount =
-                            json.optLong(
-                            "total_amount",
-                             0
-                        )
-
-                        PrefHelper.saveSaldo(
-                            this@MainActivity,
-                            totalAmount
-                        )
-
-                        val status =
-                            json.optString(
-                                "status"
-                            )
-
-                        val filter =
-                            json.optString(
-                                "filter"
-                            )
-
-                        val packages = mutableSetOf<String>()
-                        val jsonPackages =
-                            json.optJSONArray(
-                                "allowed_packages"
-                            )
-
-                        if(jsonPackages != null){
-                            for(
-                                i in 0 until
-                                jsonPackages.length()
-                            ){
-
-                                packages.add(
-                                    jsonPackages.getString(i)
-                                )
-                            }
-                        }
-
-                        PrefHelper.saveAllowedPackages(
-                            this@MainActivity,
-                            packages
-                        )
-val keywords = mutableSetOf<String>()
-val jsonKeywords =
-    json.optJSONArray(
-        "keywords"
-    )
-
-if(jsonKeywords != null){
-    for(
-        i in 0 until
-        jsonKeywords.length()
+    if(
+        !json.optBoolean(
+            "success",
+            false
+        )
     ){
-        keywords.add(
-            jsonKeywords.getString(i)
-        )
+        return
     }
-}
 
-val blockedWords = mutableSetOf<String>()
-val jsonBlockedWords =
-    json.optJSONArray(
-        "blocked_words"
+    val deviceId =
+        json.optString(
+            "device_id"
+        )
+
+    val merchant =
+        json.optString(
+            "merchant"
+        )
+
+    val provider =
+        json.optString(
+            "provider"
+        )
+
+    val totalAmount =
+        json.optLong(
+            "total_amount",
+            0
+        )
+
+    PrefHelper.saveSaldo(
+        this,
+        totalAmount
     )
 
-if(jsonBlockedWords != null){
-    for(
-        i in 0 until
-        jsonBlockedWords.length()
-    ){
-        blockedWords.add(
-            jsonBlockedWords.getString(i)
+    val status =
+        json.optString(
+            "status"
         )
-    }
-}
 
-   PrefHelper.saveKeywords(
-    this@MainActivity,
-    keywords
-)
-
-PrefHelper.saveBlockedWords(
-    this@MainActivity,
-    blockedWords
-)
-
-                        PrefHelper.saveRegistration(
-                            this@MainActivity,
-                            deviceId,
-                            merchant,
-                            provider,
-                            status, 
-                            filter                          
-                        )
-
-                        connectAppWebSocket(deviceId)
-
-                        val qrisFile =
-                            File(
-                                filesDir,
-                                "qris.jpg"
-                            )
-
-                        tempFile.copyTo(
-                            qrisFile,
-                            overwrite = true
-                        )
-
-                        findViewById<TextView>(
-                            R.id.txtDeviceId
-                        ).text =
-                            "ID : $deviceId"
-
-                        findViewById<TextView>(
-                            R.id.txtMerchant
-                        ).text =
-                            "Merchant : $merchant"
-
-                        findViewById<TextView>(
-                            R.id.txtProvider
-                        ).text =
-                            "Provider : $provider"
-
-                        findViewById<TextView>(
-                            R.id.txtSaldo
-                        ).text =
-                            "Rp %,d".format(totalAmount)
-
-                        findViewById<TextView>(
-                            R.id.txtStatus
-                        ).text =
-                            "Status : $status"
-
-                        findViewById<TextView>(
-                            R.id.txtStatus
-                        ).setTextColor(
-                            getColor(R.color.primary_green))
-
-                        findViewById<TextView>(
-                            R.id.txtConnection
-                        ).text =
-                            "● Connected"
-
-                        findViewById<TextView>(
-                            R.id.txtConnection
-                        ).setTextColor(
-                            getColor(R.color.primary_green))
-
-findViewById<LinearLayout>(
-    R.id.layoutWelcome
-).visibility = View.GONE
-
-findViewById<LinearLayout>(
-    R.id.layoutMerchantInfo
-).visibility = View.VISIBLE
-
-                        findViewById<android.widget.EditText>(
-                            R.id.edtDeviceId
-                        ).visibility = View.GONE
-
-                        findViewById<TextView>(
-                            R.id.txtDeviceHint
-                        ).visibility = View.GONE
-
-                        findViewById<android.widget.Button>(
-                            R.id.btnPilihQris
-                        ).visibility = View.GONE
-
-                        findViewById<android.widget.Button>(
-                            R.id.btnDaftar
-                        ).visibility = View.GONE
-
-                        findViewById<ImageView>(
-                            R.id.imgQris
-                        ).setImageURI(Uri.fromFile(qrisFile))
-                    }
-                }
-            }
-
-        } catch(e: Exception){
-
-            e.printStackTrace()
-
-            runOnUiThread {
-
-                findViewById<ProgressBar>(
-                    R.id.progressRegister
-                ).visibility = View.GONE
-            }
-        }
-    }
-}
-
-private fun connectAppWebSocket(
-    deviceId: String
-){
-
-    val client = OkHttpClient()
-
-    val request = Request.Builder()
-        .url(
-            "${Config.WS_APP_URL}/$deviceId"
+    val filter =
+        json.optString(
+            "filter"
         )
-        .build()
 
-    appWebSocket = client.newWebSocket(
-        request,
-        object : WebSocketListener(){
+    val packages =
+        mutableSetOf<String>()
 
-            override fun onOpen(
-                webSocket: WebSocket,
-                response: Response
-            ){
+    val jsonPackages =
+        json.optJSONArray(
+            "allowed_packages"
+        )
 
-                runOnUiThread {
+    if(jsonPackages != null){
 
-                    findViewById<TextView>(
-                        R.id.txtConnection
-                    ).text =
-                        "● Connected"
-                }
-            }
+        for(
+            i in 0 until
+            jsonPackages.length()
+        ){
 
-            override fun onMessage(
-                webSocket: WebSocket,
-                text: String
-            ){
-
-                try{
-
-                    val json =
-                        JSONObject(text)
-
-                    when(
-                        json.optString("type")
-                    ){
-
-                        "saldo_update" -> {
-
-                            val totalAmount =
-                                json.optLong(
-                                    "total_amount",
-                                    0
-                                )
-
-                            PrefHelper.saveSaldo(
-                                this@MainActivity,
-                                totalAmount
-                            )
-
-                            runOnUiThread {
-
-                                findViewById<TextView>(
-                                    R.id.txtSaldo
-                                ).text =
-                                    "Rp %,d".format(
-                                        totalAmount
-                                    )
-                            }
-                        }
-
-                        "notification" -> {
-
-    val title =
-        json.optString("title")
-
-    val message =
-        json.optString("message")
-
-    unreadNotif = true
-
-    PrefHelper.saveUnreadNotif(
-        this@MainActivity,
-        true
-    )
-
-    runOnUiThread {
-
-        updateBadge()
-
-        android.widget.Toast
-            .makeText(
-                this@MainActivity,
-                "$title\n$message",
-                android.widget.Toast.LENGTH_LONG
+            packages.add(
+                jsonPackages.getString(i)
             )
-            .show()
-    }
-}
-
-                        "update_apk" -> {
-
-                            updateAvailable = true
-
-                            latestVersion =
-                                json.optString(
-                                    "version"
-                                )
-
-                            latestApkUrl =
-                                json.optString(
-                                    "url"
-                                )
-
-                            runOnUiThread {
-
-                                invalidateOptionsMenu()
-                            }
-                        }
-                    }
-
-                }catch(e: Exception){
-
-                    e.printStackTrace()
-                }
-            }
-
-            override fun onClosed(
-                webSocket: WebSocket,
-                code: Int,
-                reason: String
-            ){
-
-                runOnUiThread {
-
-                    findViewById<TextView>(
-                        R.id.txtConnection
-                    ).text =
-                        "● Disconnected"
-                }
-            }
         }
+    }
+
+    PrefHelper.saveAllowedPackages(
+        this,
+        packages
+    )
+
+    val keywords =
+        mutableSetOf<String>()
+
+    val jsonKeywords =
+        json.optJSONArray(
+            "keywords"
+        )
+
+    if(jsonKeywords != null){
+
+        for(
+            i in 0 until
+            jsonKeywords.length()
+        ){
+
+            keywords.add(
+                jsonKeywords.getString(i)
+            )
+        }
+    }
+
+    val blockedWords =
+        mutableSetOf<String>()
+
+    val jsonBlockedWords =
+        json.optJSONArray(
+            "blocked_words"
+        )
+
+    if(jsonBlockedWords != null){
+
+        for(
+            i in 0 until
+            jsonBlockedWords.length()
+        ){
+
+            blockedWords.add(
+                jsonBlockedWords.getString(i)
+            )
+        }
+    }
+
+    PrefHelper.saveKeywords(
+        this,
+        keywords
+    )
+
+    PrefHelper.saveBlockedWords(
+        this,
+        blockedWords
+    )
+
+    PrefHelper.saveRegistration(
+        this,
+        deviceId,
+        merchant,
+        provider,
+        status,
+        filter
+    )
+
+    appWebSocket =
+        AppWebSocketHelper.connect(
+            this,
+            deviceId
+        )
+
+    val qrisFile =
+        File(
+            filesDir,
+            "qris.jpg"
+        )
+
+    tempFile.copyTo(
+        qrisFile,
+        overwrite = true
+    )
+
+    findViewById<TextView>(
+        R.id.txtDeviceId
+    ).text =
+        "ID : $deviceId"
+
+    findViewById<TextView>(
+        R.id.txtMerchant
+    ).text =
+        "Merchant : $merchant"
+
+    findViewById<TextView>(
+        R.id.txtProvider
+    ).text =
+        "Provider : $provider"
+
+    findViewById<TextView>(
+        R.id.txtSaldo
+    ).text =
+        "Rp %,d".format(
+            totalAmount
+        )
+
+    findViewById<TextView>(
+        R.id.txtStatus
+    ).text =
+        "Status : $status"
+
+    findViewById<TextView>(
+        R.id.txtStatus
+    ).setTextColor(
+        getColor(
+            R.color.primary_green
+        )
+    )
+
+    findViewById<TextView>(
+        R.id.txtConnection
+    ).text =
+        "● Connected"
+
+    findViewById<TextView>(
+        R.id.txtConnection
+    ).setTextColor(
+        getColor(
+            R.color.primary_green
+        )
+    )
+
+    findViewById<LinearLayout>(
+        R.id.layoutWelcome
+    ).visibility =
+        View.GONE
+
+    findViewById<LinearLayout>(
+        R.id.layoutMerchantInfo
+    ).visibility =
+        View.VISIBLE
+
+    findViewById<android.widget.EditText>(
+        R.id.edtDeviceId
+    ).visibility =
+        View.GONE
+
+    findViewById<TextView>(
+        R.id.txtDeviceHint
+    ).visibility =
+        View.GONE
+
+    findViewById<android.widget.Button>(
+        R.id.btnPilihQris
+    ).visibility =
+        View.GONE
+
+    findViewById<android.widget.Button>(
+        R.id.btnDaftar
+    ).visibility =
+        View.GONE
+
+    findViewById<ImageView>(
+        R.id.imgQris
+    ).setImageURI(
+        Uri.fromFile(
+            qrisFile
+        )
     )
 }
 
@@ -498,6 +353,66 @@ private fun checkServerInfo(){
         }catch(e: Exception){
             e.printStackTrace()
         }
+    }
+}
+
+fun updateSaldo(
+    totalAmount: Long
+){
+
+    PrefHelper.saveSaldo(
+        this,
+        totalAmount
+    )
+
+    runOnUiThread {
+
+        findViewById<TextView>(
+            R.id.txtSaldo
+        ).text =
+            "Rp %,d".format(
+                totalAmount
+            )
+    }
+}
+
+fun onNotificationReceived(
+    title: String,
+    message: String
+){
+
+    unreadNotif = true
+
+    PrefHelper.saveUnreadNotif(
+        this,
+        true
+    )
+
+    runOnUiThread {
+
+        updateBadge()
+
+        Toast.makeText(
+            this,
+            "$title\n$message",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+}
+
+fun onUpdateApk(
+    version: String,
+    url: String
+){
+
+    updateAvailable = true
+
+    latestVersion = version
+    latestApkUrl = url
+
+    runOnUiThread {
+
+        updateBadge()
     }
 }
 
@@ -597,10 +512,15 @@ btnDaftar.setOnClickListener {
        btnMenu.setOnClickListener {
 
     val popup =
-        PopupMenu(
-            this,
-            btnMenu
-        )
+    PopupMenu(
+        this,
+        btnMenu
+    )
+
+val registered =
+    PrefHelper.isRegistered(this)
+
+if (registered) {
 
     popup.menu.add(
         if(unreadNotif)
@@ -614,8 +534,8 @@ btnDaftar.setOnClickListener {
     )
 
     popup.menu.add(
-    "Informasi"
-)
+        "Informasi"
+    )
 
     popup.menu.add(
         if(updateAvailable)
@@ -628,9 +548,67 @@ btnDaftar.setOnClickListener {
         "Hapus Akun"
     )
 
+} else {
+
+    popup.menu.add(
+        "Tes Notifikasi"
+    )
+
+    popup.menu.add(
+        "Informasi"
+    )
+
+    popup.menu.add(
+        if(updateAvailable)
+            "Update Aplikasi ●"
+        else
+            "Update Aplikasi"
+    )
+}
+
     popup.setOnMenuItemClickListener {
 
         when(it.title.toString()) {
+
+    "Tes Notifikasi" -> {
+
+    val providers =
+        mapOf(
+            "DANA" to "id.dana"
+        )
+
+    TesNotificationHelper.show(
+        this,
+        providers
+    ){ deviceId,
+       packageName,
+       providerName ->
+
+        thread {
+
+            val success =
+                TestNotificationClient.send(
+                    deviceId,
+                    packageName,
+                    providerName
+                )
+
+            runOnUiThread {
+
+                Toast.makeText(
+                    this,
+                    if(success)
+                        "Tes notifikasi berhasil dikirim"
+                    else
+                        "Gagal mengirim tes notifikasi",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    true
+}
 
             "Notifikasi",
 "Notifikasi ●" -> {
@@ -745,6 +723,7 @@ btnDaftar.setOnClickListener {
     findViewById<LinearLayout>(
         R.id.layoutMerchantInfo
     )
+
         if (registered) {
 
         layoutMerchantInfo.visibility = View.VISIBLE       
@@ -752,9 +731,11 @@ btnDaftar.setOnClickListener {
             val deviceId =
                 PrefHelper.getDeviceId(this)
 
-            connectAppWebSocket(
-                deviceId
-            )
+            appWebSocket =
+    AppWebSocketHelper.connect(
+        this,
+        deviceId
+    )
 
             val merchant =
                 PrefHelper.getMerchant(this)
