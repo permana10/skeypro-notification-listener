@@ -149,7 +149,7 @@
     android:background="@drawable/bg_qris"
     android:paddingHorizontal="10dp"
     android:paddingTop="10dp"
-    android:paddingBottom="40dp">
+    android:paddingBottom="20dp">
 
    <FrameLayout
     android:layout_width="wrap_content"
