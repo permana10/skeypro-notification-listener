@@ -1,4 +1,4 @@
-package id.skeypro.soundbox.utils
+package id.skeypro.soundbox.websocket
 
 import android.widget.TextView
 import android.widget.Toast
