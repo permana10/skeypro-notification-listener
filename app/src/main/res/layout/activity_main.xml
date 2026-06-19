@@ -154,7 +154,7 @@
     android:id="@+id/imgQris"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:maxHeight="420dp"
+    android:maxHeight="460dp"
     android:adjustViewBounds="true"
     android:scaleType="centerInside"/>
 
@@ -235,7 +235,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:gravity="center"
+        android:layout_gravity="center_horizontal"
         android:text="-"
         android:textColor="@color/text_primary"
         android:textStyle="bold"
@@ -246,17 +246,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        android:gravity="center"
+        android:layout_gravity="center_horizontal"
         android:text="Provider"
         android:textColor="@color/text_primary"
-        android:textSize="14sp"/>
+        android:textSize="15sp"/>
 
     <TextView
         android:id="@+id/txtStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        android:gravity="center"
+        android:layout_gravity="center_horizontal"
         android:text="-"
         android:textColor="@color/status_connected"
         android:textStyle="bold"
@@ -265,12 +265,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="SALDO QRIS"
         android:gravity="center"
         android:textColor="@color/text_secondary"
-        android:textStyle="bold"
-        android:textSize="14sp"/>
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/txtSaldo"
