@@ -621,41 +621,41 @@ if (registered) {
 
         runOnUiThread {
 
-            TesNotificationHelper.show(
-                this,
-                providers
-            ){ deviceId,
-               packageName,
-               providerName ->
+    TesNotificationHelper.show(
+        this,
+        providers
+    ){ deviceId,
+       packageName,
+       providerName ->
 
-                thread {
+        thread {
 
-                    val success =
-                        TestNotificationClient.send(
-                            deviceId,
-                            packageName,
-                            providerName
-                        )
+            val success =
+                TestNotificationClient.send(
+                    deviceId,
+                    packageName,
+                    providerName
+                )
 
-                    runOnUiThread {
+            runOnUiThread {
 
-                        Toast.makeText(
-                            this,
-                            if(success)
-                                "Tes notifikasi berhasil dikirim"
-                            else
-                                "Gagal mengirim tes notifikasi",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
+                Toast.makeText(
+                    this,
+                    if(success)
+                        "Tes notifikasi berhasil dikirim"
+                    else
+                        "Gagal mengirim tes notifikasi",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
-
-    true
 }
 
+}
+
+true
+}
 
             "Notifikasi",
 "Notifikasi ●" -> {
