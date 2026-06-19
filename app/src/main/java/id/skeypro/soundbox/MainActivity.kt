@@ -21,6 +21,7 @@ import id.skeypro.soundbox.utils.RegisterHelper
 import id.skeypro.soundbox.utils.TesNotificationHelper
 import id.skeypro.soundbox.websocket.AppWebSocketHelper
 import id.skeypro.soundbox.network.TestNotificationClient
+import id.skeypro.soundbox.network.RegistrasiClient
 
 import java.io.File
 import org.json.JSONObject
@@ -598,59 +599,62 @@ if (registered) {
 
     thread {
 
-    val response =
-        RegistrasiClient
-            .getProviders()
+        val response =
+            RegistrasiClient
+                .getProviders()
 
-    if(response == null){
-        return@thread
-    }
+        if(response == null){
+            return@thread
+        }
 
-    val json =
-        JSONObject(response)
+        val json =
+            JSONObject(response)
 
-    val providers =
-        mutableMapOf<String, String>()
+        val providers =
+            mutableMapOf<String, String>()
 
-    json.keys().forEach { key ->
+        json.keys().forEach { key ->
 
-        providers[key] =
-            json.getJSONArray(key)
-                .getString(0)
-    }
+            providers[key] =
+                json.getJSONArray(key)
+                    .getString(0)
+        }
 
-    runOnUiThread {
+        runOnUiThread {
 
-        TesNotificationHelper.show(
-            this,
-            providers
-        ){ deviceId,
-           packageName,
-           providerName ->
+            TesNotificationHelper.show(
+                this,
+                providers
+            ){ deviceId,
+               packageName,
+               providerName ->
 
-            thread {
+                thread {
 
-                val success =
-                    TestNotificationClient.send(
-                        deviceId,
-                        packageName,
-                        providerName
-                    )
+                    val success =
+                        TestNotificationClient.send(
+                            deviceId,
+                            packageName,
+                            providerName
+                        )
 
-                runOnUiThread {
+                    runOnUiThread {
 
-                    Toast.makeText(
-                        this,
-                        if(success)
-                            "Tes notifikasi berhasil dikirim"
-                        else
-                            "Gagal mengirim tes notifikasi",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        Toast.makeText(
+                            this,
+                            if(success)
+                                "Tes notifikasi berhasil dikirim"
+                            else
+                                "Gagal mengirim tes notifikasi",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
     }
+
+    true
 }
 
 
