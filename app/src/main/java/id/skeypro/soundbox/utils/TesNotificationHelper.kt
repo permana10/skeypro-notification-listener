@@ -25,8 +25,7 @@ object TesNotificationHelper {
                 "Tes Notifikasi"
             )
             .setMessage(
-                "Device ID : $deviceId\n\nProvider : $provider\n\nKirim simulasi pembayaran?"
-            )
+    "\nDevice ID : $deviceId\nProvider : $provider\n\nKirim simulasi pembayaran?")
             .setPositiveButton(
                 "Kirim"
             ) { _, _ ->
