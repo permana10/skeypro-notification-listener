@@ -1,124 +1,42 @@
 package id.skeypro.soundbox.utils
 
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import android.text.InputFilter
-import android.text.InputType
 
 object TesNotificationHelper {
 
-fun show(
-activity: AppCompatActivity,
-providers: Map<String, String>,
-callback: (
-deviceId: String,
-packageName: String,
-providerName: String
-) -> Unit
-) {
+    fun show(
+        activity: AppCompatActivity,
+        callback: () -> Unit
+    ) {
 
-val layout =  
-    LinearLayout(activity).apply {  
-
-        orientation =  
-            LinearLayout.VERTICAL  
-
-        setPadding(  
-            40,  
-            20,  
-            40,  
-            20  
-        )  
-    }  
-
-val edtDeviceId =
-    EditText(activity).apply {
-        hint =
-            "Contoh : SBX-D77A4FF9"
-
-        inputType =
-            InputType.TYPE_CLASS_TEXT
-
-        filters =
-            arrayOf(
-                InputFilter.AllCaps()
+        val deviceId =
+            PrefHelper.getDeviceId(
+                activity
             )
+
+        val provider =
+            PrefHelper.getProvider(
+                activity
+            )
+
+        AlertDialog.Builder(activity)
+            .setTitle(
+                "Tes Notifikasi"
+            )
+            .setMessage(
+                "Device ID : $deviceId\n\nProvider : $provider\n\nKirim simulasi pembayaran?"
+            )
+            .setPositiveButton(
+                "Kirim"
+            ) { _, _ ->
+
+                callback()
+            }
+            .setNegativeButton(
+                "Batal",
+                null
+            )
+            .show()
     }
-
-val spinner =  
-    Spinner(activity)  
-    spinner.minimumHeight = 120
-
-val providerNames =  
-    providers.keys.toList()  
-
-val adapter =
-    ArrayAdapter(
-        activity,
-        android.R.layout.simple_spinner_item,
-        providerNames
-    )
-
-adapter.setDropDownViewResource(
-    android.R.layout.simple_spinner_dropdown_item
-)
-
-spinner.adapter =
-    adapter
-
-layout.addView(  
-    edtDeviceId  
-)  
-
-layout.addView(  
-    spinner  
-)  
-
-AlertDialog.Builder(activity)  
-    .setTitle(  
-        "Tes Notifikasi"  
-    )  
-    .setView(  
-        layout  
-    )  
-    .setPositiveButton(  
-        "Kirim"  
-    ) { _, _ ->  
-
-        val deviceId =  
-            edtDeviceId.text  
-                .toString()  
-                .trim()  
-
-        if(deviceId.isEmpty()){  
-            return@setPositiveButton  
-        }  
-
-        val providerName =  
-            spinner.selectedItem  
-                .toString()  
-
-        val packageName =  
-            providers[  
-                providerName  
-            ] ?: ""  
-
-        callback(  
-            deviceId,  
-            packageName,  
-            providerName  
-        )  
-    }  
-    .setNegativeButton(  
-        "Batal",  
-        null  
-    )  
-    .show()
-
-}
-
 }

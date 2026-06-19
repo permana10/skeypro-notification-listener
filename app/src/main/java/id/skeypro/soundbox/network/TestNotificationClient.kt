@@ -1,9 +1,13 @@
 package id.skeypro.soundbox.network
 
+import android.content.Context
+import id.skeypro.soundbox.utils.PrefHelper
+
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+
 import org.json.JSONObject
 
 object TestNotificationClient {
@@ -12,10 +16,25 @@ object TestNotificationClient {
         OkHttpClient()
 
     fun send(
-        deviceId: String,
-        packageName: String,
-        providerName: String
+        context: Context
     ): Boolean {
+
+        val deviceId =
+            PrefHelper.getDeviceId(
+                context
+            )
+
+        val providerName =
+            PrefHelper.getProvider(
+                context
+            )
+
+        val packageName =
+            PrefHelper
+                .getAllowedPackages(
+                    context
+                )
+                .firstOrNull() ?: ""
 
         return try {
 
@@ -34,7 +53,7 @@ object TestNotificationClient {
 
                     put(
                         "title",
-                        "TEST Pembayaran Masuk"
+                        "TEST PEMBAYARAN MASUK"
                     )
 
                     put(

@@ -548,6 +548,10 @@ val registered =
 if (registered) {
 
     popup.menu.add(
+        "Tes Notifikasi"
+    )
+
+    popup.menu.add(
         if(unreadNotif)
             "Notifikasi ●"
         else
@@ -576,10 +580,6 @@ if (registered) {
 } else {
 
     popup.menu.add(
-        "Tes Notifikasi"
-    )
-
-    popup.menu.add(
         "Informasi"
     )
 
@@ -597,43 +597,15 @@ if (registered) {
 
     "Tes Notifikasi" -> {
 
-    thread {
-        val response =
-            RegisterClient.getProviders()
-
-        if(response == null){
-            return@thread
-        }
-
-        val json =
-            JSONObject(response)
-
-        val providers =
-            mutableMapOf<String, String>()
-
-        json.keys().forEach { key ->
-
-            providers[key] =
-                json.getJSONArray(key)
-                    .getString(0)
-        }
-
-        runOnUiThread {
-
     TesNotificationHelper.show(
-        this,
-        providers
-    ){ deviceId,
-       packageName,
-       providerName ->
+        this
+    ){
 
         thread {
 
             val success =
                 TestNotificationClient.send(
-                    deviceId,
-                    packageName,
-                    providerName
+                    this@MainActivity
                 )
 
             runOnUiThread {
@@ -648,11 +620,9 @@ if (registered) {
                 ).show()
             }
         }
-     }
-  }
+    }
 
- }
-true
+    true
 }
 
             "Notifikasi",
