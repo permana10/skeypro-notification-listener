@@ -147,8 +147,9 @@
     android:layout_marginTop="10dp"
     android:orientation="vertical"
     android:background="@drawable/bg_qris"
-    android:paddingHorizontal="3dp"
-    android:paddingVertical="3dp">
+    android:paddingHorizontal="10dp"
+    android:paddingTop="10"
+    android:paddingBottom="40dp">
 
     <ImageView
     android:id="@+id/imgQris"
@@ -235,11 +236,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="0dp"
         android:layout_gravity="center_horizontal"
         android:text="-"
         android:textColor="@color/text_primary"
         android:textStyle="bold"
-        android:textSize="15sp"/>
+        android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/txtProvider"
@@ -249,7 +251,7 @@
         android:layout_gravity="center_horizontal"
         android:text="Provider"
         android:textColor="@color/text_primary"
-        android:textSize="15sp"/>
+        android:textSize="12sp"/>
 
     <TextView
         android:id="@+id/txtStatus"
@@ -260,7 +262,7 @@
         android:text="-"
         android:textColor="@color/status_connected"
         android:textStyle="bold"
-        android:textSize="14sp"/>
+        android:textSize="12sp"/>
 
     <TextView
         android:layout_width="match_parent"
